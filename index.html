@@ -1,0 +1,2225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Relay — Automation & Integration Agency</title>
+
+<!-- SEO -->
+<meta name="description" content="Relay builds seamless integrations and intelligent automations that eliminate manual work, synchronize your stack, and let your team focus on what matters."/>
+<meta name="keywords" content="automation agency, API integration, workflow automation, Make, Zapier, n8n, CRM sync, AI flows"/>
+<meta name="author" content="Relay Studio"/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://relaystudio.io/"/>
+
+<!-- Open Graph -->
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://relaystudio.io/"/>
+<meta property="og:title" content="Relay — Automation & Integration Agency"/>
+<meta property="og:description" content="We connect your tools. Automate the rest. Relay builds seamless integrations for startups and scale-ups worldwide."/>
+<meta property="og:image" content="https://relaystudio.io/og-image.png"/>
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Relay — Automation & Integration Agency"/>
+<meta name="twitter:description" content="We connect your tools. Automate the rest."/>
+<meta name="twitter:image" content="https://relaystudio.io/og-image.png"/>
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Relay Studio",
+  "description": "Automation and integration agency building seamless workflows for businesses worldwide.",
+  "url": "https://relaystudio.io",
+  "email": "hello@relaystudio.io",
+  "areaServed": "Worldwide",
+  "serviceType": ["Workflow Automation", "API Integration", "CRM Data Sync", "AI-Powered Flows"],
+  "priceRange": "$$"
+}
+</script>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0c0f;
+    --white: #f5f4f0;
+    --accent: #00e5a0;
+    --accent-dim: rgba(0,229,160,0.12);
+    --accent-border: rgba(0,229,160,0.35);
+    --gray-1: #111318;
+    --gray-2: #1a1d24;
+    --gray-3: #252830;
+    --gray-4: #373b45;
+    --gray-5: #6b7080;
+    --gray-6: #9da3b0;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 3rem;
+    background: rgba(10,12,15,0.88);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.25rem;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+    align-items: center;
+  }
+
+  .nav-links a {
+    color: var(--gray-6);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+
+  .nav-cta {
+    background: var(--accent);
+    color: var(--black) !important;
+    padding: 0.5rem 1.25rem;
+    border-radius: 100px;
+    font-weight: 500 !important;
+    transition: opacity 0.2s !important;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* Hamburger */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+    z-index: 200;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10,12,15,0.98);
+    backdrop-filter: blur(20px);
+    z-index: 150;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: -0.03em;
+    transition: color 0.2s;
+  }
+  .mobile-menu a:hover { color: var(--accent); }
+  .mobile-menu .mobile-cta {
+    background: var(--accent);
+    color: var(--black) !important;
+    padding: 0.75rem 2rem;
+    border-radius: 100px;
+    font-size: 1.25rem !important;
+    margin-top: 1rem;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 3rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,160,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,160,0.04) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 100%);
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: -10%; left: 50%;
+    transform: translateX(-50%);
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(0,229,160,0.08) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.75rem;
+    position: relative;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 20px; height: 1px;
+    background: var(--accent);
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+    max-width: 14ch;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+  .hero-title em { font-style: italic; font-weight: 300; color: var(--gray-6); }
+  .hero-title .accent-word { color: var(--accent); }
+
+  .hero-sub {
+    font-size: 1.125rem;
+    color: var(--gray-6);
+    max-width: 46ch;
+    font-weight: 300;
+    line-height: 1.75;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    position: relative;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--accent);
+    color: var(--black);
+    padding: 0.875rem 2rem;
+    border-radius: 100px;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--gray-6);
+    font-size: 0.9375rem;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .btn-ghost:hover { color: var(--white); }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 5rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+  }
+
+  .hero-stat-num {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+  .hero-stat-num span { color: var(--accent); }
+
+  .hero-stat-label {
+    font-size: 0.8125rem;
+    color: var(--gray-5);
+    letter-spacing: 0.03em;
+  }
+
+  /* ── MARQUEE ── */
+  .marquee-section {
+    background: var(--gray-1);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 1.5rem 0;
+    overflow: hidden;
+  }
+
+  .marquee-label {
+    text-align: center;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray-5);
+    margin-bottom: 1.25rem;
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    width: max-content;
+    animation: marquee 28s linear infinite;
+  }
+
+  .marquee-track:hover { animation-play-state: paused; }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  .marquee-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 2.5rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--gray-5);
+    white-space: nowrap;
+    transition: color 0.2s;
+    border-right: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .marquee-item:hover { color: var(--white); }
+  .marquee-item .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); opacity: 0.5; }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 6rem 3rem; }
+
+  .section-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .section-tag::before { content: ''; width: 14px; height: 1px; background: var(--accent); display: block; }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--white);
+  }
+  .section-title em { font-style: italic; font-weight: 300; color: var(--gray-5); }
+
+  /* ── SERVICES ── */
+  #services {
+    background: var(--gray-1);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .services-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: end;
+    margin-bottom: 4rem;
+  }
+
+  .services-desc {
+    color: var(--gray-6);
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.8;
+    max-width: 44ch;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .service-card {
+    background: var(--gray-1);
+    padding: 2.5rem 2rem;
+    transition: background 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card:hover { background: var(--gray-2); }
+  .service-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 2px; width: 0;
+    background: var(--accent);
+    transition: width 0.35s ease;
+  }
+  .service-card:hover::after { width: 100%; }
+
+  .service-icon {
+    width: 44px; height: 44px;
+    border: 1px solid var(--accent-border);
+    border-radius: 10px;
+    background: var(--accent-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+  .service-icon svg { width: 20px; height: 20px; stroke: var(--accent); fill: none; stroke-width: 1.5; }
+
+  .service-name {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  .service-desc { font-size: 0.875rem; color: var(--gray-5); line-height: 1.7; font-weight: 300; }
+
+  /* ── CASE STUDIES ── */
+  #cases { background: var(--black); }
+
+  .cases-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .cases-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .case-card {
+    background: var(--gray-1);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    overflow: hidden;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.25s, transform 0.25s;
+    position: relative;
+  }
+  .case-card:hover { border-color: var(--accent-border); transform: translateY(-4px); }
+
+  .case-thumb {
+    height: 180px;
+    background: var(--gray-2);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .case-thumb-pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,160,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,160,0.06) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .case-thumb-icon {
+    width: 56px; height: 56px;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-border);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+  .case-thumb-icon svg { width: 24px; height: 24px; stroke: var(--accent); fill: none; stroke-width: 1.5; }
+
+  .case-body { padding: 1.75rem; flex: 1; display: flex; flex-direction: column; }
+
+  .case-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+  }
+
+  .case-title {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    margin-bottom: 0.75rem;
+  }
+
+  .case-desc { font-size: 0.875rem; color: var(--gray-5); line-height: 1.7; font-weight: 300; flex: 1; }
+
+  .case-result {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .result-num {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.2rem;
+  }
+
+  .result-label { font-size: 0.75rem; color: var(--gray-5); font-weight: 300; }
+
+  .case-arrow {
+    position: absolute;
+    top: 1.25rem; right: 1.25rem;
+    width: 32px; height: 32px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .case-card:hover .case-arrow { opacity: 1; }
+  .case-arrow svg { width: 14px; height: 14px; stroke: var(--accent); fill: none; stroke-width: 2; }
+
+  /* ── TESTIMONIALS ── */
+  #testimonials {
+    background: var(--gray-1);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .testimonial-card {
+    background: var(--gray-2);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    transition: border-color 0.25s;
+  }
+  .testimonial-card:hover { border-color: var(--accent-border); }
+
+  .testimonial-stars {
+    display: flex;
+    gap: 3px;
+  }
+  .testimonial-stars svg { width: 14px; height: 14px; fill: var(--accent); stroke: none; }
+
+  .testimonial-quote {
+    font-size: 0.9375rem;
+    color: var(--gray-6);
+    line-height: 1.75;
+    font-weight: 300;
+    flex: 1;
+    font-style: italic;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .author-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gray-3), var(--gray-4));
+    border: 1.5px solid var(--accent-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .author-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--white);
+    margin-bottom: 0.1rem;
+  }
+
+  .author-role { font-size: 0.75rem; color: var(--gray-5); font-weight: 300; }
+
+  /* ── PRICING ── */
+  #pricing { background: var(--black); }
+
+  .pricing-header { margin-bottom: 3.5rem; }
+  .pricing-header .section-title { margin-bottom: 1rem; }
+  .pricing-sub { color: var(--gray-6); font-weight: 300; font-size: 1rem; max-width: 44ch; margin-top: 0.75rem; }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .pricing-card {
+    background: var(--gray-1);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    position: relative;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .pricing-card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-4px); }
+
+  .pricing-card.featured {
+    background: var(--gray-2);
+    border-color: var(--accent-border);
+    transform: scale(1.03);
+  }
+  .pricing-card.featured:hover { transform: scale(1.03) translateY(-4px); }
+
+  .pricing-badge {
+    position: absolute;
+    top: -12px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: var(--black);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.875rem;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  .pricing-tier {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gray-5);
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+
+  .pricing-price {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+  .pricing-price span { font-size: 1rem; font-weight: 400; color: var(--gray-5); }
+
+  .pricing-desc { font-size: 0.875rem; color: var(--gray-5); font-weight: 300; margin-bottom: 2rem; margin-top: 0.5rem; line-height: 1.6; }
+
+  .pricing-divider { height: 1px; background: rgba(255,255,255,0.07); margin-bottom: 1.75rem; }
+
+  .pricing-features { display: flex; flex-direction: column; gap: 0.875rem; margin-bottom: 2rem; }
+
+  .pricing-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--gray-6);
+    font-weight: 300;
+  }
+
+  .feature-check {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .feature-check svg { width: 9px; height: 9px; stroke: var(--accent); fill: none; stroke-width: 2.5; }
+
+  .feature-x {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .feature-x svg { width: 8px; height: 8px; stroke: var(--gray-5); fill: none; stroke-width: 2.5; }
+
+  .feature-muted { color: var(--gray-4); }
+
+  .pricing-btn {
+    display: block;
+    width: 100%;
+    padding: 0.875rem;
+    border-radius: 100px;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+    border: none;
+  }
+  .pricing-btn-outline {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--white);
+  }
+  .pricing-btn-outline:hover { border-color: rgba(255,255,255,0.35); }
+  .pricing-btn-fill {
+    background: var(--accent);
+    color: var(--black);
+  }
+  .pricing-btn-fill:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  .pricing-note {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.8125rem;
+    color: var(--gray-5);
+    font-weight: 300;
+  }
+
+  /* ── PROCESS ── */
+  #process { background: var(--gray-1); border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+  .process-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 5rem;
+    align-items: start;
+    margin-top: 3rem;
+  }
+
+  .process-steps { display: flex; flex-direction: column; gap: 0; }
+
+  .process-step {
+    display: flex;
+    gap: 1.25rem;
+    padding: 1.75rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    cursor: default;
+    transition: padding-left 0.25s;
+  }
+  .process-step:hover { padding-left: 0.5rem; }
+
+  .step-num {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-top: 3px;
+    min-width: 28px;
+  }
+
+  .step-title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.02em;
+  }
+
+  .step-desc { font-size: 0.875rem; color: var(--gray-5); font-weight: 300; line-height: 1.7; }
+
+  /* Diagram */
+  .integration-diagram {
+    background: var(--gray-2);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 20px;
+    padding: 2.5rem;
+    position: relative;
+  }
+
+  .diagram-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray-5);
+    margin-bottom: 2rem;
+    font-weight: 400;
+  }
+
+  .hub-node {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: var(--accent-dim);
+    border: 1.5px solid var(--accent-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    position: relative;
+    margin: 0 auto;
+  }
+  .hub-node::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 1px dashed rgba(0,229,160,0.2);
+    animation: spin 18s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .nodes-row {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .tool-node {
+    padding: 0.5rem 1rem;
+    background: var(--gray-3);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 100px;
+    font-size: 0.8125rem;
+    color: var(--gray-6);
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: border-color 0.2s, color 0.2s;
+    white-space: nowrap;
+  }
+  .tool-node:hover { border-color: var(--accent-border); color: var(--white); }
+  .tool-node .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); opacity: 0.6; flex-shrink: 0; }
+
+  .connector-line {
+    width: 1px; height: 32px;
+    background: linear-gradient(to bottom, transparent, var(--accent-border), transparent);
+    margin: 0.75rem auto;
+  }
+
+  .diagram-stats {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .d-stat { text-align: center; }
+  .d-stat-num { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+  .d-stat-label { font-size: 0.75rem; color: var(--gray-5); margin-top: 2px; }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--black);
+  }
+
+  .about-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .about-card {
+    background: var(--gray-1);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 20px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .about-card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    background: radial-gradient(circle, rgba(0,229,160,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .about-avatar {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gray-3), var(--gray-4));
+    border: 2px solid rgba(0,229,160,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+
+  .about-name { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--white); margin-bottom: 0.25rem; letter-spacing: -0.02em; }
+  .about-role { font-size: 0.875rem; color: var(--accent); font-weight: 400; margin-bottom: 1.25rem; letter-spacing: 0.02em; }
+  .about-bio-card { font-size: 0.875rem; color: var(--gray-5); line-height: 1.75; font-weight: 300; }
+
+  .about-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .skill-pill {
+    padding: 0.3rem 0.875rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 100px;
+    font-size: 0.75rem;
+    color: var(--gray-6);
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .skill-pill:hover { border-color: var(--accent-border); color: var(--white); }
+
+  .about-body { color: var(--gray-6); font-weight: 300; font-size: 1rem; line-height: 1.8; margin-bottom: 1.5rem; }
+
+  .about-highlights { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+
+  .highlight-item { display: flex; align-items: flex-start; gap: 0.875rem; }
+
+  .highlight-check {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .highlight-check svg { width: 10px; height: 10px; stroke: var(--accent); fill: none; stroke-width: 2.5; }
+
+  .highlight-text { font-size: 0.9375rem; color: var(--gray-6); font-weight: 300; line-height: 1.5; }
+  .highlight-text strong { color: var(--white); font-weight: 500; }
+
+  /* ── FAQ ── */
+  #faq {
+    background: var(--gray-1);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .faq-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 5rem;
+    align-items: start;
+    margin-top: 3rem;
+  }
+
+  .faq-intro { color: var(--gray-6); font-weight: 300; line-height: 1.8; margin-top: 1.25rem; max-width: 36ch; }
+
+  .faq-contact-note {
+    margin-top: 2rem;
+    padding: 1.25rem;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-border);
+    border-radius: 12px;
+    font-size: 0.875rem;
+    color: var(--gray-6);
+    line-height: 1.6;
+  }
+  .faq-contact-note a { color: var(--accent); text-decoration: none; }
+  .faq-contact-note a:hover { text-decoration: underline; }
+
+  .faq-list { display: flex; flex-direction: column; gap: 0; }
+
+  .faq-item {
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    overflow: hidden;
+  }
+
+  .faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.5rem 0;
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    list-style: none;
+    user-select: none;
+    transition: color 0.2s;
+  }
+  .faq-question:hover { color: var(--accent); }
+
+  .faq-icon {
+    width: 24px; height: 24px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s, border-color 0.2s, transform 0.3s;
+  }
+  .faq-icon svg { width: 12px; height: 12px; stroke: var(--gray-6); fill: none; stroke-width: 2; transition: stroke 0.2s; }
+
+  .faq-item.open .faq-icon { background: var(--accent-dim); border-color: var(--accent-border); transform: rotate(45deg); }
+  .faq-item.open .faq-icon svg { stroke: var(--accent); }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+  }
+  .faq-answer-inner {
+    padding-bottom: 1.5rem;
+    font-size: 0.9375rem;
+    color: var(--gray-5);
+    font-weight: 300;
+    line-height: 1.8;
+  }
+  .faq-item.open .faq-answer { max-height: 300px; }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--black); }
+
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+    margin-top: 3rem;
+  }
+
+  .contact-tagline {
+    font-size: 1.125rem;
+    color: var(--gray-6);
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    max-width: 38ch;
+  }
+
+  .contact-detail {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-icon {
+    width: 40px; height: 40px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .contact-icon svg { width: 16px; height: 16px; stroke: var(--gray-6); fill: none; stroke-width: 1.5; }
+
+  .contact-label { font-size: 0.75rem; color: var(--gray-5); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 400; margin-bottom: 0.15rem; }
+  .contact-value { font-size: 0.9375rem; color: var(--white); font-weight: 400; }
+  .contact-value a { color: var(--white); text-decoration: none; }
+  .contact-value a:hover { color: var(--accent); }
+
+  .contact-book-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 2rem;
+    color: var(--accent);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: gap 0.2s;
+  }
+  .contact-book-link:hover { gap: 0.75rem; }
+  .contact-book-link svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+  /* Form */
+  .contact-form {
+    background: var(--gray-1);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 20px;
+    padding: 2.5rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+
+  .form-group label { font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-5); font-weight: 400; }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    background: var(--gray-2);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus { border-color: var(--accent-border); }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: var(--gray-4); }
+  .form-group textarea { resize: none; height: 120px; }
+  .form-group select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7080' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+  }
+  .form-group select option { background: var(--gray-2); }
+
+  .submit-btn {
+    width: 100%;
+    padding: 0.875rem;
+    background: var(--accent);
+    color: var(--black);
+    border: none;
+    border-radius: 100px;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  .submit-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  .form-status {
+    display: none;
+    padding: 0.875rem 1rem;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 400;
+    margin-top: 1rem;
+    text-align: center;
+  }
+  .form-status.success { display: block; background: var(--accent-dim); border: 1px solid var(--accent-border); color: var(--accent); }
+  .form-status.error { display: block; background: rgba(255,80,80,0.1); border: 1px solid rgba(255,80,80,0.3); color: #ff6b6b; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 3rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    background: var(--gray-1);
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.5fr repeat(3, 1fr);
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer-brand {}
+
+  .footer-logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--white);
+    letter-spacing: -0.03em;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+  .footer-logo span { color: var(--accent); }
+
+  .footer-tagline { font-size: 0.875rem; color: var(--gray-5); font-weight: 300; line-height: 1.7; max-width: 28ch; }
+
+  .footer-col-title { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-5); font-weight: 500; margin-bottom: 1.25rem; }
+
+  .footer-links { display: flex; flex-direction: column; gap: 0.75rem; list-style: none; }
+
+  .footer-links a {
+    font-size: 0.875rem;
+    color: var(--gray-6);
+    text-decoration: none;
+    font-weight: 300;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--white); }
+
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-copy { font-size: 0.8125rem; color: var(--gray-5); font-weight: 300; }
+
+  .footer-social { display: flex; gap: 1rem; }
+
+  .social-link {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s, color 0.2s;
+    color: var(--gray-6);
+    text-decoration: none;
+  }
+  .social-link:hover { border-color: var(--accent-border); color: var(--accent); }
+  .social-link svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+
+  /* ── SCROLL ANIMATION ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { opacity: 0; animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.22s; }
+  .delay-3 { animation-delay: 0.34s; }
+  .delay-4 { animation-delay: 0.46s; }
+  .delay-5 { animation-delay: 0.58s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    section { padding: 4rem 1.5rem; }
+    #hero { padding: 7rem 1.5rem 4rem; }
+    .services-header { grid-template-columns: 1fr; gap: 1.5rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    .cases-grid { grid-template-columns: 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .pricing-card.featured { transform: none; }
+    .pricing-card.featured:hover { transform: translateY(-4px); }
+    .process-layout { grid-template-columns: 1fr; gap: 3rem; }
+    .about-layout { grid-template-columns: 1fr; gap: 3rem; }
+    .faq-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .hero-stats { gap: 2rem; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+  }
+
+  @media (max-width: 600px) {
+    .footer-top { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">Relay<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#cases">Work</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="#contact" class="nav-cta">Get in touch</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" class="mobile-link">Services</a>
+  <a href="#cases" class="mobile-link">Work</a>
+  <a href="#pricing" class="mobile-link">Pricing</a>
+  <a href="#about" class="mobile-link">About</a>
+  <a href="blog.html" class="mobile-link">Blog</a>
+  <a href="#contact" class="mobile-link mobile-cta">Get in touch</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+
+  <p class="hero-eyebrow fade-up">Automation & Integration Agency</p>
+  <h1 class="hero-title fade-up delay-1">
+    We connect <em>your</em><br>tools.<br>
+    <span class="accent-word">Automate</span> the rest.
+  </h1>
+  <p class="hero-sub fade-up delay-2">
+    Relay builds seamless integrations and intelligent automations that eliminate manual work, synchronize your stack, and let your team focus on what actually matters.
+  </p>
+  <div class="hero-actions fade-up delay-3">
+    <a href="#contact" class="btn-primary">
+      Start a project
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <a href="#services" class="btn-ghost">
+      See our services
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+    </a>
+  </div>
+
+  <div class="hero-stats fade-up delay-4">
+    <div>
+      <div class="hero-stat-num" data-target="120" data-suffix="+">0<span>+</span></div>
+      <div class="hero-stat-label">Automations built</div>
+    </div>
+    <div>
+      <div class="hero-stat-num" data-target="40" data-suffix="k+">0<span>k+</span></div>
+      <div class="hero-stat-label">Hours saved for clients</div>
+    </div>
+    <div>
+      <div class="hero-stat-num" data-target="98" data-suffix="%">0<span>%</span></div>
+      <div class="hero-stat-label">Client satisfaction</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <p class="marquee-label">Tools we integrate daily</p>
+  <div style="overflow:hidden;">
+    <div class="marquee-track">
+      <!-- doubled for seamless loop -->
+      <div class="marquee-item"><span class="dot"></span>Salesforce</div>
+      <div class="marquee-item"><span class="dot"></span>HubSpot</div>
+      <div class="marquee-item"><span class="dot"></span>Shopify</div>
+      <div class="marquee-item"><span class="dot"></span>Stripe</div>
+      <div class="marquee-item"><span class="dot"></span>Slack</div>
+      <div class="marquee-item"><span class="dot"></span>Notion</div>
+      <div class="marquee-item"><span class="dot"></span>Airtable</div>
+      <div class="marquee-item"><span class="dot"></span>Google Workspace</div>
+      <div class="marquee-item"><span class="dot"></span>Make</div>
+      <div class="marquee-item"><span class="dot"></span>n8n</div>
+      <div class="marquee-item"><span class="dot"></span>Zapier</div>
+      <div class="marquee-item"><span class="dot"></span>OpenAI</div>
+      <div class="marquee-item"><span class="dot"></span>Pipedrive</div>
+      <div class="marquee-item"><span class="dot"></span>Intercom</div>
+      <div class="marquee-item"><span class="dot"></span>QuickBooks</div>
+      <div class="marquee-item"><span class="dot"></span>Salesforce</div>
+      <div class="marquee-item"><span class="dot"></span>HubSpot</div>
+      <div class="marquee-item"><span class="dot"></span>Shopify</div>
+      <div class="marquee-item"><span class="dot"></span>Stripe</div>
+      <div class="marquee-item"><span class="dot"></span>Slack</div>
+      <div class="marquee-item"><span class="dot"></span>Notion</div>
+      <div class="marquee-item"><span class="dot"></span>Airtable</div>
+      <div class="marquee-item"><span class="dot"></span>Google Workspace</div>
+      <div class="marquee-item"><span class="dot"></span>Make</div>
+      <div class="marquee-item"><span class="dot"></span>n8n</div>
+      <div class="marquee-item"><span class="dot"></span>Zapier</div>
+      <div class="marquee-item"><span class="dot"></span>OpenAI</div>
+      <div class="marquee-item"><span class="dot"></span>Pipedrive</div>
+      <div class="marquee-item"><span class="dot"></span>Intercom</div>
+      <div class="marquee-item"><span class="dot"></span>QuickBooks</div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header reveal">
+    <div>
+      <p class="section-tag">What we do</p>
+      <h2 class="section-title">End-to-end<br><em>automation</em> services</h2>
+    </div>
+    <p class="services-desc">
+      From API wiring to full workflow orchestration — we design, build, and maintain automated systems tailored to your exact business logic.
+    </p>
+  </div>
+
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </div>
+      <div class="service-name">Workflow Automation</div>
+      <p class="service-desc">Eliminate repetitive manual tasks. We map your processes and build reliable automated workflows using Make, Zapier, and n8n.</p>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </div>
+      <div class="service-name">API Integration</div>
+      <p class="service-desc">Connect any two systems — custom or off-the-shelf. We build robust API bridges with proper error handling, retries, and logging.</p>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      </div>
+      <div class="service-name">CRM & Data Sync</div>
+      <p class="service-desc">Keep your CRM, databases, and SaaS tools in perfect sync. No more copy-pasting data or dealing with duplicates.</p>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </div>
+      <div class="service-name">AI-Powered Flows</div>
+      <p class="service-desc">Integrate LLMs and AI models into your workflows for smart routing, content generation, classification, and decision-making.</p>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+      </div>
+      <div class="service-name">E-commerce Ops</div>
+      <p class="service-desc">Automate order management, inventory sync, fulfillment notifications, customer journeys, and post-purchase flows end-to-end.</p>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><path d="M9 17H7A5 5 0 017 7h2M15 7h2a5 5 0 010 10h-2M8 12h8"/></svg>
+      </div>
+      <div class="service-name">Custom Webhooks & Scripts</div>
+      <p class="service-desc">Need something bespoke? We write custom scripts, serverless functions, and webhook handlers when off-the-shelf tools won't cut it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section id="cases">
+  <div class="cases-header reveal">
+    <div>
+      <p class="section-tag">Our work</p>
+      <h2 class="section-title">Results that<br><em>speak for themselves</em></h2>
+    </div>
+    <a href="case-study.html" class="btn-ghost">
+      View all case studies
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+
+  <div class="cases-grid">
+
+    <a href="case-study.html" class="case-card reveal">
+      <div class="case-thumb">
+        <div class="case-thumb-pattern"></div>
+        <div class="case-thumb-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+        </div>
+      </div>
+      <div class="case-body">
+        <div class="case-tag">E-commerce · Shopify + HubSpot</div>
+        <div class="case-title">Full order lifecycle automation for DTC brand</div>
+        <p class="case-desc">Eliminated manual order entry, synced fulfillment data bidirectionally, and triggered post-purchase email journeys — all without touching a spreadsheet.</p>
+        <div class="case-result">
+          <div>
+            <div class="result-num">18h</div>
+            <div class="result-label">Saved per week</div>
+          </div>
+          <div>
+            <div class="result-num">0</div>
+            <div class="result-label">Manual errors</div>
+          </div>
+          <div>
+            <div class="result-num">3 days</div>
+            <div class="result-label">Build time</div>
+          </div>
+        </div>
+      </div>
+      <div class="case-arrow">
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </a>
+
+    <a href="case-study.html" class="case-card reveal">
+      <div class="case-thumb">
+        <div class="case-thumb-pattern"></div>
+        <div class="case-thumb-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+      </div>
+      <div class="case-body">
+        <div class="case-tag">SaaS · AI + Salesforce</div>
+        <div class="case-title">AI-powered lead scoring and routing pipeline</div>
+        <p class="case-desc">Built an LLM-driven enrichment layer that scores inbound leads, routes them to the right rep, and drafts a personalised outreach email — in under 90 seconds.</p>
+        <div class="case-result">
+          <div>
+            <div class="result-num">34%</div>
+            <div class="result-label">Higher close rate</div>
+          </div>
+          <div>
+            <div class="result-num">90s</div>
+            <div class="result-label">Lead response time</div>
+          </div>
+          <div>
+            <div class="result-num">2 wks</div>
+            <div class="result-label">To production</div>
+          </div>
+        </div>
+      </div>
+      <div class="case-arrow">
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </a>
+
+    <a href="case-study.html" class="case-card reveal">
+      <div class="case-thumb">
+        <div class="case-thumb-pattern"></div>
+        <div class="case-thumb-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 17H7A5 5 0 017 7h2M15 7h2a5 5 0 010 10h-2M8 12h8"/></svg>
+        </div>
+      </div>
+      <div class="case-body">
+        <div class="case-tag">Fintech · Stripe + QuickBooks + Slack</div>
+        <div class="case-title">Real-time financial reporting automation</div>
+        <p class="case-desc">Connected Stripe events to QuickBooks reconciliation with Slack alerts on anomalies — closing the books monthly went from 3 days to 4 hours.</p>
+        <div class="case-result">
+          <div>
+            <div class="result-num">3d→4h</div>
+            <div class="result-label">Month-end close</div>
+          </div>
+          <div>
+            <div class="result-num">100%</div>
+            <div class="result-label">Reconciliation accuracy</div>
+          </div>
+          <div>
+            <div class="result-num">$0</div>
+            <div class="result-label">Bookkeeping errors</div>
+          </div>
+        </div>
+      </div>
+      <div class="case-arrow">
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="reveal">
+    <p class="section-tag">What clients say</p>
+    <h2 class="section-title">Trusted by teams<br><em>who move fast</em></h2>
+  </div>
+
+  <div class="testimonials-grid">
+
+    <div class="testimonial-card reveal">
+      <div class="testimonial-stars">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <p class="testimonial-quote">"Relay turned a process that took our ops team 3 hours a day into something that just... runs. The build was fast, the documentation was thorough, and they caught edge cases we hadn't even thought of."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">MK</div>
+        <div>
+          <div class="author-name">Marcus K.</div>
+          <div class="author-role">Head of Operations, Clearpath SaaS</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card reveal">
+      <div class="testimonial-stars">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <p class="testimonial-quote">"We'd tried three freelancers before Relay. The difference was that they actually understood our business logic before touching a single tool. The system they built has been running for 8 months without a single failure."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">SR</div>
+        <div>
+          <div class="author-name">Sophie R.</div>
+          <div class="author-role">CEO, Bloom DTC</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card reveal">
+      <div class="testimonial-stars">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <p class="testimonial-quote">"The AI lead scoring pipeline they built cut our sales cycle by two weeks. I sent them a Loom, they came back with architecture on a Friday, and we were live by the following Thursday. Genuinely impressive."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">JL</div>
+        <div>
+          <div class="author-name">James L.</div>
+          <div class="author-role">VP Sales, Vantage CRM</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="pricing-header reveal">
+    <p class="section-tag">Pricing</p>
+    <h2 class="section-title">Transparent pricing.<br><em>No surprises.</em></h2>
+    <p class="pricing-sub">Every project starts with a free discovery call. We scope, quote, and deliver — fixed-price or retainer.</p>
+  </div>
+
+  <div class="pricing-grid">
+
+    <div class="pricing-card reveal">
+      <div class="pricing-tier">Starter</div>
+      <div class="pricing-price">$1,500<span> /project</span></div>
+      <p class="pricing-desc">One focused automation. Perfect for a single workflow, webhook, or integration between two tools.</p>
+      <div class="pricing-divider"></div>
+      <div class="pricing-features">
+        <div class="pricing-feature"><div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>1 automation workflow</div>
+        <div class="pricing-feature"><div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Up to 2 tool integrations</div>
+        <div class="pricing-feature"><div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Basic error handling</div>
+        <div class="pricing-feature"><div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Documentation handover</div>
+        <div class="pricing-feature"><div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>14-day post-launch support</div>
+        <div class="pricing-feature feature-muted"><div class="feature-x"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>Multi-system orchestration</div>
+        <div class="pricing-feature feature-muted"><div class="feature-x"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>Ongoing retainer</div>
+      </div>
+      <a href="#contact" class="pricing-btn pricing-btn-outline">Get started</a>
+    </div>
+
+    <div class="pricing-card featured reveal">
+      <div class="pricing-badge">Most popular</div>
+      <div class="pricing-tier">Growth</div>
+      <div class="pricing-price">$4,500<span> /project</span></div>
+      <p class="pricing-desc">A full automation suite. Multiple workflows, deep integrations, and AI-powered logic — built to scale.</p>
+      <div class="pricing-divider"></div>
+      <div class="pricing-features">
+        <div class="pricing-feature"><div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Up to 5 automation workflows</div>
+        <div class="pricing-feature"><div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Unlimited tool integrations</div>
+        <div class="pricing-feature"><div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Advanced error handling & retries</div>
+        <div class="pricing-feature"><div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Monitoring & alerting setup</div>
+        <div class="pricing-feature"><div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Full documentation handover</div>
+        <div class="pricing-feature"><div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>30-day post-launch support</div>
+        <div class="pricing-feature"><div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>AI/LLM integration available</div>
+      </div>
+      <a href="#contact" class="pricing-btn pricing-btn-fill">Get started</a>
+    </div>
+
+    <div class="pricing-card reveal">
+      <div class="pricing-tier">Retainer</div>
+      <div class="pricing-price">$2,200<span> /month</span></div>
+      <p class="pricing-desc">An ongoing partner. We build, iterate, monitor, and expand your automation stack every month.</p>
+      <div class="pricing-divider"></div>
+      <div class="pricing-features">
+        <div class="pricing-feature"><div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>20 hours/month build time</div>
+        <div class="pricing-feature"><div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Continuous monitoring</div>
+        <div class="pricing-feature"><div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Priority Slack support</div>
+        <div class="pricing-feature"><div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Monthly strategy call</div>
+        <div class="pricing-feature"><div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Unlimited minor tweaks</div>
+        <div class="pricing-feature"><div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Quarterly audit & report</div>
+        <div class="pricing-feature"><div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Cancel anytime</div>
+      </div>
+      <a href="#contact" class="pricing-btn pricing-btn-outline">Start retainer</a>
+    </div>
+
+  </div>
+
+  <p class="pricing-note reveal">All projects start with a free 30-minute discovery call. Custom enterprise quotes available — <a href="#contact" style="color:var(--accent);text-decoration:none;">reach out</a>.</p>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="reveal">
+    <p class="section-tag">How it works</p>
+    <h2 class="section-title">From discovery<br><em>to deployment</em></h2>
+  </div>
+
+  <div class="process-layout">
+    <div class="process-steps reveal">
+      <div class="process-step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-title">Discovery call</div>
+          <p class="step-desc">We map your current stack, identify bottlenecks, and define clear automation goals with measurable outcomes.</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-title">Architecture design</div>
+          <p class="step-desc">We design the integration architecture — choosing the right tools, defining data flows, and scoping each automation carefully.</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <div class="step-title">Build & test</div>
+          <p class="step-desc">We build in sprints, testing each node against real data. Edge cases are handled before they become production problems.</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <div class="step-title">Deploy & monitor</div>
+          <p class="step-desc">We deploy to your environment and set up monitoring, alerts, and documentation. Your automations keep running — reliably.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="integration-diagram reveal">
+      <p class="diagram-title">Integration hub — your connected stack</p>
+      <div class="nodes-row" style="margin-bottom: 0.5rem;">
+        <div class="tool-node"><span class="dot"></span>Salesforce</div>
+        <div class="tool-node"><span class="dot"></span>Shopify</div>
+        <div class="tool-node"><span class="dot"></span>HubSpot</div>
+      </div>
+      <div class="connector-line"></div>
+      <div class="hub-node">RELAY</div>
+      <div class="connector-line"></div>
+      <div class="nodes-row">
+        <div class="tool-node"><span class="dot"></span>Slack</div>
+        <div class="tool-node"><span class="dot"></span>Notion</div>
+        <div class="tool-node"><span class="dot"></span>Stripe</div>
+        <div class="tool-node"><span class="dot"></span>Airtable</div>
+      </div>
+      <div class="diagram-stats">
+        <div class="d-stat">
+          <div class="d-stat-num">2M+</div>
+          <div class="d-stat-label">Events processed</div>
+        </div>
+        <div class="d-stat">
+          <div class="d-stat-num">99.9%</div>
+          <div class="d-stat-label">Uptime SLA</div>
+        </div>
+        <div class="d-stat">
+          <div class="d-stat-num">&lt;200ms</div>
+          <div class="d-stat-label">Avg latency</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-layout">
+    <div class="about-visual reveal">
+      <div class="about-card">
+        <div class="about-avatar">R</div>
+        <div class="about-name">Relay Studio</div>
+        <div class="about-role">Automation & Integration Specialists</div>
+        <p class="about-bio-card">
+          A focused team of automation engineers and integration architects. We've shipped systems for startups, scale-ups, and enterprises across SaaS, e-commerce, fintech, and beyond.
+        </p>
+        <div class="about-skills">
+          <span class="skill-pill">Make / Integromat</span>
+          <span class="skill-pill">n8n</span>
+          <span class="skill-pill">Zapier</span>
+          <span class="skill-pill">Node.js</span>
+          <span class="skill-pill">REST APIs</span>
+          <span class="skill-pill">GraphQL</span>
+          <span class="skill-pill">Python</span>
+          <span class="skill-pill">OpenAI</span>
+          <span class="skill-pill">Webhooks</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-text reveal">
+      <p class="section-tag">About us</p>
+      <h2 class="section-title">Built by engineers<br><em>who understand</em><br>your stack.</h2>
+      <p class="about-body">
+        We're not a generalist agency. Every person on our team comes from an engineering background — we've built production systems, debugged at 2am, and designed for failure. That's what makes our automations different.
+      </p>
+      <p class="about-body">
+        We take the time to understand your business logic before writing a single line. The result? Systems that actually hold up.
+      </p>
+      <div class="about-highlights">
+        <div class="highlight-item">
+          <div class="highlight-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <p class="highlight-text"><strong>No cookie-cutter solutions</strong> — every automation is designed around your exact workflow.</p>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <p class="highlight-text"><strong>Full documentation</strong> — you own every workflow with clear handover materials.</p>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <p class="highlight-text"><strong>Ongoing support</strong> — we're available post-launch for monitoring, tweaks, and scaling.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="faq-layout">
+    <div class="reveal">
+      <p class="section-tag">FAQ</p>
+      <h2 class="section-title">Common<br><em>questions</em></h2>
+      <p class="faq-intro">Can't find what you're looking for? We're happy to jump on a quick call.</p>
+      <div class="faq-contact-note">
+        Still unsure? <a href="#contact">Send us a message</a> or <a href="book.html">book a free discovery call</a> — no commitment required.
+      </div>
+    </div>
+
+    <div class="faq-list reveal">
+
+      <div class="faq-item">
+        <div class="faq-question">
+          How long does a typical project take?
+          <div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Most Starter projects are delivered in 3–5 business days. Growth projects typically take 1–2 weeks depending on complexity. We'll give you a firm timeline after the discovery call — we don't start until you're comfortable with the scope.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          What tools and platforms do you support?
+          <div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">We work with virtually any tool that has an API or webhook — including Make, n8n, Zapier, HubSpot, Salesforce, Shopify, Stripe, Airtable, Notion, Slack, Google Workspace, and many more. If it has an API, we can integrate it. For custom or internal tools, we write the code directly.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          Do I need technical knowledge to work with you?
+          <div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Not at all. We work with founders, ops leads, and teams who just know they're doing too much manually. You describe the problem in plain English — we handle everything technical. We'll keep you updated throughout in non-technical language.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          What happens if something breaks after launch?
+          <div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Every project includes a post-launch support window (14 days for Starter, 30 days for Growth). During this time, any bug related to our build is fixed free of charge. Retainer clients get ongoing priority support indefinitely. We also set up monitoring so issues are caught before you notice them.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          Can you work with our existing automations?
+          <div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Yes — we audit, fix, extend, and migrate existing automations all the time. We'll start by reviewing what you have and give you an honest assessment of what's worth keeping, what needs refactoring, and what should be rebuilt from scratch.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          Is pricing negotiable for large projects?
+          <div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">For large or multi-phase projects, we always provide a custom quote. The prices listed are starting points for standard engagements. Enterprise and agency partnerships are priced separately — reach out and we'll put together something that makes sense for your scope.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="reveal">
+    <p class="section-tag">Get in touch</p>
+    <h2 class="section-title">Ready to automate?<br><em>Let's talk.</em></h2>
+  </div>
+
+  <div class="contact-layout">
+    <div class="contact-info reveal">
+      <p class="contact-tagline">
+        Tell us about your project and we'll get back to you within 24 hours with a scoping proposal.
+      </p>
+
+      <div class="contact-detail">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-value"><a href="mailto:hello@relaystudio.io">hello@relaystudio.io</a></div>
+        </div>
+      </div>
+
+      <div class="contact-detail">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">Based in</div>
+          <div class="contact-value">Remote-first · Worldwide</div>
+        </div>
+      </div>
+
+      <div class="contact-detail">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">Response time</div>
+          <div class="contact-value">Within 24 hours</div>
+        </div>
+      </div>
+
+      <a href="book.html" class="contact-book-link">
+        Or book a free discovery call
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <!-- Form uses Formspree — replace YOUR_FORM_ID with your Formspree form ID -->
+    <div class="contact-form reveal">
+      <form id="contactForm" action="https://formspree.io/f/mbdzvabr" method="POST">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First name</label>
+            <input type="text" name="firstName" placeholder="Alex" required />
+          </div>
+          <div class="form-group">
+            <label>Last name</label>
+            <input type="text" name="lastName" placeholder="Jordan" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email address</label>
+          <input type="email" name="email" placeholder="you@company.com" required />
+        </div>
+        <div class="form-group">
+          <label>Service needed</label>
+          <select name="service">
+            <option value="" disabled selected>Select a service…</option>
+            <option>Workflow Automation</option>
+            <option>API Integration</option>
+            <option>CRM & Data Sync</option>
+            <option>AI-Powered Flows</option>
+            <option>E-commerce Ops</option>
+            <option>Custom Webhooks & Scripts</option>
+            <option>Not sure yet</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tell us about your project</label>
+          <textarea name="message" placeholder="What tools are you using? What do you want to automate?" required></textarea>
+        </div>
+        <button type="submit" class="submit-btn" id="submitBtn">
+          Send message
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <div class="form-status" id="formStatus"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#hero" class="footer-logo">Relay<span>.</span></a>
+      <p class="footer-tagline">Automation and integration specialists helping teams eliminate manual work and scale smarter.</p>
+    </div>
+
+    <div>
+      <p class="footer-col-title">Services</p>
+      <ul class="footer-links">
+        <li><a href="#services">Workflow Automation</a></li>
+        <li><a href="#services">API Integration</a></li>
+        <li><a href="#services">CRM & Data Sync</a></li>
+        <li><a href="#services">AI-Powered Flows</a></li>
+        <li><a href="#services">E-commerce Ops</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <p class="footer-col-title">Company</p>
+      <ul class="footer-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#cases">Work</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="book.html">Book a call</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <p class="footer-col-title">Get in touch</p>
+      <ul class="footer-links">
+        <li><a href="mailto:hello@relaystudio.io">hello@relaystudio.io</a></li>
+        <li><a href="#contact">Contact form</a></li>
+        <li><a href="book.html">Free discovery call</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 Relay Studio. All rights reserved.</p>
+    <div class="footer-social">
+      <a href="#" class="social-link" aria-label="Twitter/X">
+        <svg viewBox="0 0 24 24"><path d="M4 4l16 16M20 4L4 20"/></svg>
+      </a>
+      <a href="#" class="social-link" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+      </a>
+      <a href="#" class="social-link" aria-label="GitHub">
+        <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── HAMBURGER MENU ──
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // ── SCROLL REVEAL ──
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        entry.target.style.transitionDelay = (i % 4) * 0.08 + 's';
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  revealEls.forEach(el => observer.observe(el));
+
+  // ── COUNTER ANIMATION ──
+  const counterEls = document.querySelectorAll('[data-target]');
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseInt(el.dataset.target);
+        const suffix = el.dataset.suffix || '';
+        let current = 0;
+        const duration = 1600;
+        const step = target / (duration / 16);
+        const timer = setInterval(() => {
+          current = Math.min(current + step, target);
+          el.innerHTML = Math.floor(current) + '<span>' + suffix + '</span>';
+          if (current >= target) clearInterval(timer);
+        }, 16);
+        counterObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  counterEls.forEach(el => counterObserver.observe(el));
+
+  // ── FAQ ACCORDION ──
+  document.querySelectorAll('.faq-question').forEach(question => {
+    question.addEventListener('click', () => {
+      const item = question.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // ── FORM SUBMISSION ──
+  const form = document.getElementById('contactForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const formStatus = document.getElementById('formStatus');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Sending… <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>';
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        formStatus.className = 'form-status success';
+        formStatus.textContent = "Message sent! We'll be in touch within 24 hours.";
+        form.reset();
+      } else {
+        throw new Error('Server error');
+      }
+    } catch {
+      formStatus.className = 'form-status error';
+      formStatus.textContent = 'Something went wrong. Please email us directly at hello@relaystudio.io';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Send message <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+    }
+  });
+</script>
+</body>
+</html>

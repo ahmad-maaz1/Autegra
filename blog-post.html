@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>How to build an AI-powered lead scoring system — Relay Blog</title>
+<meta name="description" content="A step-by-step walkthrough of the exact pipeline we use to enrich inbound leads, score them with GPT-4, and route them automatically."/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--black:#0a0c0f;--white:#f5f4f0;--accent:#00e5a0;--accent-dim:rgba(0,229,160,0.12);--accent-border:rgba(0,229,160,0.35);--gray-1:#111318;--gray-2:#1a1d24;--gray-3:#252830;--gray-4:#373b45;--gray-5:#6b7080;--gray-6:#9da3b0;--font-display:'Syne',sans-serif;--font-body:'DM Sans',sans-serif}
+  html{scroll-behavior:smooth}
+  body{background:var(--black);color:var(--white);font-family:var(--font-body);font-size:16px;line-height:1.7;overflow-x:hidden}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.25rem 3rem;background:rgba(10,12,15,0.88);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,0.05)}
+  .nav-logo{font-family:var(--font-display);font-weight:800;font-size:1.25rem;letter-spacing:-0.03em;color:var(--white);text-decoration:none}
+  .nav-logo span{color:var(--accent)}
+  .nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center}
+  .nav-links a{color:var(--gray-6);text-decoration:none;font-size:0.875rem;font-weight:400;transition:color 0.2s}
+  .nav-links a:hover{color:var(--white)}
+  .nav-cta{background:var(--accent);color:var(--black)!important;padding:0.5rem 1.25rem;border-radius:100px;font-weight:500!important}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+  .hamburger span{display:block;width:24px;height:2px;background:var(--white);border-radius:2px;transition:all 0.3s}
+  .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .hamburger.open span:nth-child(2){opacity:0}
+  .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .mobile-menu{display:none;position:fixed;inset:0;background:rgba(10,12,15,0.98);backdrop-filter:blur(20px);z-index:150;flex-direction:column;align-items:center;justify-content:center;gap:2rem}
+  .mobile-menu.open{display:flex}
+  .mobile-menu a{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--white);text-decoration:none;transition:color 0.2s}
+  .mobile-menu a:hover{color:var(--accent)}
+  .mobile-menu .mobile-cta{background:var(--accent);color:var(--black)!important;padding:0.75rem 2rem;border-radius:100px;font-size:1.25rem!important;margin-top:1rem}
+
+  .post-layout{
+    display:grid;
+    grid-template-columns:1fr 300px;
+    gap:5rem;
+    max-width:1100px;
+    margin:0 auto;
+    padding:8rem 3rem 5rem;
+    align-items:start;
+  }
+
+  /* Article */
+  .article-back{display:inline-flex;align-items:center;gap:0.4rem;color:var(--gray-5);font-size:0.875rem;text-decoration:none;margin-bottom:2rem;transition:color 0.2s}
+  .article-back:hover{color:var(--accent)}
+  .article-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+  .article-meta{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+  .article-cat{font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);font-weight:500;background:var(--accent-dim);border:1px solid var(--accent-border);padding:0.25rem 0.75rem;border-radius:100px}
+  .article-date{font-size:0.8125rem;color:var(--gray-5);font-weight:300}
+  .article-read{font-size:0.8125rem;color:var(--gray-5);font-weight:300;display:flex;align-items:center;gap:0.35rem}
+  .article-read svg{width:12px;height:12px;stroke:var(--gray-5);fill:none;stroke-width:2}
+
+  .article-title{font-family:var(--font-display);font-size:clamp(1.75rem,4vw,2.75rem);font-weight:800;letter-spacing:-0.04em;line-height:1.1;margin-bottom:1.5rem}
+
+  .article-hero{background:var(--gray-1);border:1px solid rgba(255,255,255,0.07);border-radius:16px;height:280px;display:flex;align-items:center;justify-content:center;margin-bottom:3rem;position:relative;overflow:hidden}
+  .hero-pattern{position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,160,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,160,0.05) 1px,transparent 1px);background-size:40px 40px}
+  .hero-icon{width:64px;height:64px;background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:16px;display:flex;align-items:center;justify-content:center;position:relative;z-index:1}
+  .hero-icon svg{width:28px;height:28px;stroke:var(--accent);fill:none;stroke-width:1.5}
+
+  /* Prose */
+  .prose h2{font-family:var(--font-display);font-size:1.5rem;font-weight:700;letter-spacing:-0.03em;color:var(--white);margin:2.5rem 0 1rem;line-height:1.2}
+  .prose h3{font-family:var(--font-display);font-size:1.125rem;font-weight:700;letter-spacing:-0.02em;color:var(--white);margin:2rem 0 0.875rem;line-height:1.3}
+  .prose p{color:var(--gray-6);font-weight:300;font-size:0.9375rem;line-height:1.85;margin-bottom:1.25rem}
+  .prose strong{color:var(--white);font-weight:500}
+  .prose a{color:var(--accent);text-decoration:none}
+  .prose a:hover{text-decoration:underline}
+  .prose ul,.prose ol{padding-left:1.5rem;margin-bottom:1.25rem;color:var(--gray-6);font-size:0.9375rem;font-weight:300;line-height:1.8}
+  .prose li{margin-bottom:0.4rem}
+  .prose code{background:var(--gray-2);border:1px solid rgba(255,255,255,0.08);border-radius:5px;padding:0.15rem 0.45rem;font-family:monospace;font-size:0.875rem;color:var(--accent)}
+  .prose pre{background:var(--gray-2);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;overflow-x:auto}
+  .prose pre code{background:none;border:none;padding:0;font-size:0.8125rem;color:var(--gray-6);white-space:pre}
+  .prose blockquote{border-left:2px solid var(--accent);padding:1rem 1.5rem;margin:1.5rem 0;background:var(--accent-dim);border-radius:0 10px 10px 0}
+  .prose blockquote p{color:var(--gray-6);font-style:italic;margin-bottom:0}
+  .prose hr{border:none;border-top:1px solid rgba(255,255,255,0.06);margin:2.5rem 0}
+
+  .callout{background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:12px;padding:1.25rem 1.5rem;margin:1.5rem 0;display:flex;gap:0.875rem}
+  .callout-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px}
+  .callout-text{font-size:0.9375rem;color:var(--gray-6);font-weight:300;line-height:1.7}
+  .callout-text strong{color:var(--white);font-weight:500}
+
+  .step-block{background:var(--gray-1);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:1.5rem;margin:1rem 0;display:flex;gap:1.25rem}
+  .step-num{font-family:var(--font-display);font-size:0.75rem;font-weight:700;color:var(--accent);letter-spacing:0.1em;min-width:28px;margin-top:3px}
+  .step-body h4{font-family:var(--font-display);font-size:0.9375rem;font-weight:700;color:var(--white);margin-bottom:0.4rem;letter-spacing:-0.02em}
+  .step-body p{font-size:0.875rem;color:var(--gray-5);font-weight:300;line-height:1.7;margin:0}
+
+  /* Author */
+  .author-block{display:flex;align-items:center;gap:1rem;padding:1.5rem 0;border-top:1px solid rgba(255,255,255,0.06);margin-top:2.5rem}
+  .author-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--gray-3),var(--gray-4));border:1.5px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--accent);flex-shrink:0}
+  .author-name{font-size:0.9375rem;font-weight:500;color:var(--white);margin-bottom:0.1rem}
+  .author-role{font-size:0.8125rem;color:var(--gray-5);font-weight:300}
+
+  /* Sidebar */
+  .sidebar{position:sticky;top:6rem}
+  .sidebar-card{background:var(--gray-1);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem}
+  .sidebar-title{font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-5);font-weight:500;margin-bottom:1rem}
+  .toc-list{list-style:none;display:flex;flex-direction:column;gap:0.5rem}
+  .toc-list a{font-size:0.875rem;color:var(--gray-5);text-decoration:none;font-weight:300;display:block;transition:color 0.2s;line-height:1.4}
+  .toc-list a:hover{color:var(--accent)}
+  .toc-list a.active{color:var(--accent);font-weight:500}
+
+  .sidebar-cta{background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:16px;padding:1.5rem}
+  .sidebar-cta-title{font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--white);margin-bottom:0.5rem;letter-spacing:-0.02em}
+  .sidebar-cta-text{font-size:0.8125rem;color:var(--gray-6);font-weight:300;line-height:1.6;margin-bottom:1.25rem}
+  .sidebar-cta-btn{display:block;background:var(--accent);color:var(--black);padding:0.6rem 1rem;border-radius:100px;text-align:center;text-decoration:none;font-size:0.875rem;font-weight:500;transition:opacity 0.2s}
+  .sidebar-cta-btn:hover{opacity:0.88}
+
+  footer{padding:2.5rem 3rem;border-top:1px solid rgba(255,255,255,0.06);background:var(--gray-1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+  .footer-logo{font-family:var(--font-display);font-weight:800;font-size:1rem;color:var(--white);letter-spacing:-0.03em;text-decoration:none}
+  .footer-logo span{color:var(--accent)}
+  .footer-copy{font-size:0.8125rem;color:var(--gray-5);font-weight:300}
+  .footer-back-link{font-size:0.875rem;color:var(--gray-6);text-decoration:none;display:flex;align-items:center;gap:0.4rem;transition:color 0.2s}
+  .footer-back-link:hover{color:var(--accent)}
+  .footer-back-link svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+  @media(max-width:900px){
+    nav{padding:1rem 1.5rem}
+    .nav-links{display:none}
+    .hamburger{display:flex}
+    .post-layout{grid-template-columns:1fr;gap:3rem;padding:6rem 1.5rem 4rem}
+    .sidebar{position:static}
+    footer{flex-direction:column;text-align:center}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Relay<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#cases">Work</a></li>
+    <li><a href="index.html#pricing">Pricing</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="blog.html" style="color:var(--white)">Blog</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Get in touch</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html#services" class="mobile-link">Services</a>
+  <a href="index.html#cases" class="mobile-link">Work</a>
+  <a href="index.html#pricing" class="mobile-link">Pricing</a>
+  <a href="index.html#about" class="mobile-link">About</a>
+  <a href="blog.html" class="mobile-link">Blog</a>
+  <a href="index.html#contact" class="mobile-link mobile-cta">Get in touch</a>
+</div>
+
+<div class="post-layout">
+
+  <article>
+    <a href="blog.html" class="article-back">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to blog
+    </a>
+
+    <div class="article-meta">
+      <span class="article-cat">AI & LLMs</span>
+      <span class="article-date">March 18, 2026</span>
+      <span class="article-read"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>8 min read</span>
+    </div>
+
+    <h1 class="article-title">How to build an AI-powered lead scoring system with GPT-4 and Make</h1>
+
+    <div class="article-hero">
+      <div class="hero-pattern"></div>
+      <div class="hero-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+    </div>
+
+    <div class="prose">
+
+      <p>Every B2B SaaS company faces the same problem at some point: too many inbound leads, not enough context to prioritise them. Sales reps end up spending 40–60% of their time on prospects who will never convert — not because they're lazy, but because the triage is genuinely hard without data.</p>
+
+      <p>We built a solution to this for Vantage CRM last quarter. The results were a <strong>34% improvement in close rate</strong> and a lead response time that dropped from 4 hours to 90 seconds. In this post, I'll walk you through the exact architecture.</p>
+
+      <h2 id="overview">How the pipeline works</h2>
+
+      <p>The system does four things automatically when a new lead comes in:</p>
+
+      <ol>
+        <li>Enriches the contact data using Clearbit</li>
+        <li>Sends that data to GPT-4 with a custom scoring prompt</li>
+        <li>Routes the lead to the correct sales rep in Salesforce based on the score</li>
+        <li>Drafts a personalized outreach email for the rep to review and send</li>
+      </ol>
+
+      <p>All of this happens in under 90 seconds from form submission. Here's how to build it.</p>
+
+      <div class="callout">
+        <span class="callout-icon">💡</span>
+        <div class="callout-text"><strong>What you'll need:</strong> A Make.com account (Starter plan is fine), Clearbit API access, OpenAI API key, and Salesforce. The same logic works with n8n or Zapier if you prefer those.</div>
+      </div>
+
+      <h2 id="step1">Step 1: Capture the inbound lead</h2>
+
+      <p>Start with a Make webhook that fires on every form submission. Your lead capture form should collect at minimum: first name, last name, email, company name, and optionally a brief description of what they're looking for.</p>
+
+      <p>In Make, create a new scenario and add a <code>Webhooks → Custom webhook</code> trigger. Copy the webhook URL and paste it as the form action (or configure your form provider to POST to it).</p>
+
+      <div class="step-block">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <h4>Test your webhook</h4>
+          <p>Submit a test form entry and verify Make is receiving the correct field names. Pay attention to how email fields come through — you'll need the raw email address for Clearbit enrichment.</p>
+        </div>
+      </div>
+
+      <h2 id="step2">Step 2: Enrich with Clearbit</h2>
+
+      <p>Add a <code>HTTP → Make a request</code> module with the Clearbit Enrichment API. Pass the email address from the webhook and you'll get back: company size, industry, funding stage, tech stack, revenue estimate, and more.</p>
+
+<pre><code>GET https://person-stream.clearbit.com/v2/combined/find?email={{email}}
+Authorization: Bearer {{clearbit_api_key}}</code></pre>
+
+      <p>Map the fields you care about for ICP scoring. For most B2B SaaS companies this is: <strong>company size</strong>, <strong>industry</strong>, <strong>funding round</strong>, and <strong>tech stack</strong> (particularly whether they're using tools that indicate budget and process maturity).</p>
+
+      <div class="callout">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-text"><strong>Handle Clearbit misses:</strong> Clearbit won't return data for every email, especially personal addresses. Add an error handler that either skips enrichment and routes to a human review queue, or falls back to company domain lookup.</div>
+      </div>
+
+      <h2 id="step3">Step 3: Score with GPT-4</h2>
+
+      <p>This is the key step. Add an <code>OpenAI → Create a completion</code> module. The model is <code>gpt-4o</code>. Write your system prompt like this:</p>
+
+<pre><code>You are a lead scoring assistant for a B2B SaaS company.
+Score the following lead from 0 to 100 based on fit with our ICP.
+
+Our ICP:
+- Company size: 50-500 employees
+- Industry: SaaS, Fintech, E-commerce
+- Tech signals: Uses Salesforce or HubSpot
+- Funding: Seed through Series B
+- Budget signals: Has dedicated ops/RevOps team
+
+Return a JSON object with:
+{
+  "score": number,
+  "tier": "hot" | "warm" | "cold",
+  "reasoning": "2-3 sentence explanation",
+  "suggested_angle": "1 sentence on how to approach outreach"
+}
+
+Lead data:
+{{enriched_lead_data}}</code></pre>
+
+      <p>Pass the enriched Clearbit data as the user message. Set <code>temperature</code> to 0.2 — you want consistent, deterministic scoring, not creative variation.</p>
+
+      <div class="step-block">
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <h4>Parse the JSON response</h4>
+          <p>Use Make's built-in JSON parser to extract score, tier, reasoning, and suggested_angle from the GPT response. Always wrap this in error handling — occasionally the model will output slightly malformed JSON.</p>
+        </div>
+      </div>
+
+      <h2 id="step4">Step 4: Route to Salesforce</h2>
+
+      <p>Use a <code>Router</code> module with three branches based on the <code>tier</code> field:</p>
+
+      <ul>
+        <li><strong>Hot (score 75+):</strong> Create a high-priority Lead in Salesforce, assign to your best closer, add to "Hot Inbound" sequence, trigger an immediate Slack notification to the rep</li>
+        <li><strong>Warm (score 40–74):</strong> Create a standard Lead, assign by round-robin, add to nurture sequence</li>
+        <li><strong>Cold (score 0–39):</strong> Create a Lead with low priority, add to long-term nurture, no immediate rep assignment</li>
+      </ul>
+
+      <h2 id="step5">Step 5: Draft the outreach email</h2>
+
+      <p>For hot and warm leads, fire a second OpenAI call to draft a personalised first-touch email. Pass the GPT scoring output (especially <code>suggested_angle</code>) along with the lead data.</p>
+
+<pre><code>Draft a short, personalized cold outreach email from a sales rep.
+
+- First name: {{first_name}}
+- Company: {{company}}
+- Suggested angle: {{suggested_angle}}
+- Keep it under 100 words
+- No fluffy intros — get to the point
+- End with a soft CTA to book a 20-minute call</code></pre>
+
+      <p>Create a Salesforce Task attached to the lead with the draft email as the description. The rep reviews it, edits if needed, and sends. In practice, they use it verbatim about 70% of the time.</p>
+
+      <hr/>
+
+      <h2 id="results">What to expect</h2>
+
+      <p>After running this in production for 60 days at Vantage CRM:</p>
+
+      <ul>
+        <li>Lead response time dropped from ~4 hours to 90 seconds</li>
+        <li>Close rate on "hot" tier leads improved by 34%</li>
+        <li>Reps reported spending ~60% less time on research before first outreach</li>
+        <li>The scoring matched rep intuition in about 80% of cases (the other 20% were edge cases they used to improve the ICP prompt)</li>
+      </ul>
+
+      <blockquote>
+        <p>"We'd tried to build this ourselves twice and given up. The Relay version was in production in two weeks and it's been running without issues for four months."</p>
+      </blockquote>
+
+      <p>The GPT scoring isn't perfect — no automated system is. But it doesn't need to be. It just needs to be fast, consistent, and better than "whoever looks at the inbox first."</p>
+
+      <p>If you want to build this for your team, <a href="book.html">book a discovery call</a> and we'll scope it out together.</p>
+
+    </div>
+
+    <div class="author-block">
+      <div class="author-avatar">R</div>
+      <div>
+        <div class="author-name">Relay Studio</div>
+        <div class="author-role">Automation & Integration Engineers</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <p class="sidebar-title">In this article</p>
+      <ul class="toc-list">
+        <li><a href="#overview">How the pipeline works</a></li>
+        <li><a href="#step1">Step 1: Capture the lead</a></li>
+        <li><a href="#step2">Step 2: Enrich with Clearbit</a></li>
+        <li><a href="#step3">Step 3: Score with GPT-4</a></li>
+        <li><a href="#step4">Step 4: Route to Salesforce</a></li>
+        <li><a href="#step5">Step 5: Draft outreach email</a></li>
+        <li><a href="#results">What to expect</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-cta">
+      <div class="sidebar-cta-title">Want us to build this for you?</div>
+      <p class="sidebar-cta-text">We scope and build AI integration pipelines like this in 1–2 weeks. Book a free discovery call.</p>
+      <a href="book.html" class="sidebar-cta-btn">Book a free call →</a>
+    </div>
+  </aside>
+
+</div>
+
+<footer>
+  <a href="index.html" class="footer-logo">Relay<span>.</span></a>
+  <p class="footer-copy">© 2026 Relay Studio. All rights reserved.</p>
+  <a href="blog.html" class="footer-back-link">
+    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to blog
+  </a>
+</footer>
+
+<script>
+  const hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobileMenu');
+  hamburger.addEventListener('click',()=>{hamburger.classList.toggle('open');mobileMenu.classList.toggle('open');document.body.style.overflow=mobileMenu.classList.contains('open')?'hidden':''});
+  document.querySelectorAll('.mobile-link').forEach(l=>l.addEventListener('click',()=>{hamburger.classList.remove('open');mobileMenu.classList.remove('open');document.body.style.overflow=''}));
+
+  // TOC active state on scroll
+  const sections = document.querySelectorAll('h2[id]');
+  const tocLinks = document.querySelectorAll('.toc-list a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector('.toc-list a[href="#' + entry.target.id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
