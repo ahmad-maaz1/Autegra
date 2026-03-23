@@ -10,6 +10,7 @@
 <meta name="keywords" content="automation agency, API integration, workflow automation, Make, Zapier, n8n, CRM sync, AI flows"/>
 <meta name="author" content="Autegra"/>
 <meta name="robots" content="index, follow"/>
+<link rel="icon" type="image/png" href="assets/images/logo.png"/>
 <link rel="canonical" href="https://autegra.co/"/>
 
 <!-- Open Graph -->
@@ -85,7 +86,7 @@
     border-bottom: 1px solid rgba(255,255,255,0.05);
   }
 
-  .nav-logo {
+  .nav-logo {display:flex;align-items:center;gap:8px;
     font-family: var(--font-display);
     font-weight: 800;
     font-size: 1.25rem;
@@ -954,15 +955,8 @@
   .about-avatar {
     width: 72px; height: 72px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--gray-3), var(--gray-4));
     border: 2px solid rgba(0,229,160,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--accent);
+    object-fit: cover;
     margin-bottom: 1.5rem;
   }
 
@@ -1251,7 +1245,7 @@
 
   .footer-brand {}
 
-  .footer-logo {
+  .footer-logo {display:flex;align-items:center;gap:8px;
     font-family: var(--font-display);
     font-weight: 800;
     font-size: 1.25rem;
@@ -1359,7 +1353,7 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#hero" class="nav-logo">Autegra<span>.</span></a>
+  <a href="#hero" class="nav-logo"><img src="assets/images/logo.png" alt="Autegra" height="28" style="display:block;">Autegra</a>
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
     <li><a href="#cases">Work</a></li>
@@ -1848,7 +1842,7 @@
   <div class="about-layout">
     <div class="about-visual reveal">
       <div class="about-card">
-        <div class="about-avatar">A</div>
+        <img src="assets/images/logo.png" alt="Autegra" class="about-avatar">
         <div class="about-name">Autegra</div>
         <div class="about-role">Automation & Integration Specialists</div>
         <p class="about-bio-card">
@@ -2070,7 +2064,7 @@
 <footer>
   <div class="footer-top">
     <div class="footer-brand">
-      <a href="#hero" class="footer-logo">Autegra<span>.</span></a>
+      <a href="#hero" class="footer-logo"><img src="assets/images/logo.png" alt="Autegra" height="22" style="display:block;">Autegra</a>
       <p class="footer-tagline">Automation and integration specialists helping teams eliminate manual work and scale smarter.</p>
     </div>
 

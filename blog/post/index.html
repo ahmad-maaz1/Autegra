@@ -13,7 +13,7 @@
   body{background:var(--black);color:var(--white);font-family:var(--font-body);font-size:16px;line-height:1.7;overflow-x:hidden}
 
   nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.25rem 3rem;background:rgba(10,12,15,0.88);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,0.05)}
-  .nav-logo{font-family:var(--font-display);font-weight:800;font-size:1.25rem;letter-spacing:-0.03em;color:var(--white);text-decoration:none}
+  .nav-logo{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:800;font-size:1.25rem;letter-spacing:-0.03em;color:var(--white);text-decoration:none}
   .nav-logo span{color:var(--accent)}
   .nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center}
   .nav-links a{color:var(--gray-6);text-decoration:none;font-size:0.875rem;font-weight:400;transition:color 0.2s}
@@ -86,7 +86,7 @@
 
   /* Author */
   .author-block{display:flex;align-items:center;gap:1rem;padding:1.5rem 0;border-top:1px solid rgba(255,255,255,0.06);margin-top:2.5rem}
-  .author-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--gray-3),var(--gray-4));border:1.5px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--accent);flex-shrink:0}
+  .author-avatar{width:48px;height:48px;border-radius:50%;border:1.5px solid var(--accent-border);object-fit:cover;flex-shrink:0}
   .author-name{font-size:0.9375rem;font-weight:500;color:var(--white);margin-bottom:0.1rem}
   .author-role{font-size:0.8125rem;color:var(--gray-5);font-weight:300}
 
@@ -106,7 +106,7 @@
   .sidebar-cta-btn:hover{opacity:0.88}
 
   footer{padding:2.5rem 3rem;border-top:1px solid rgba(255,255,255,0.06);background:var(--gray-1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
-  .footer-logo{font-family:var(--font-display);font-weight:800;font-size:1rem;color:var(--white);letter-spacing:-0.03em;text-decoration:none}
+  .footer-logo{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:800;font-size:1rem;color:var(--white);letter-spacing:-0.03em;text-decoration:none}
   .footer-logo span{color:var(--accent)}
   .footer-copy{font-size:0.8125rem;color:var(--gray-5);font-weight:300}
   .footer-back-link{font-size:0.875rem;color:var(--gray-6);text-decoration:none;display:flex;align-items:center;gap:0.4rem;transition:color 0.2s}
@@ -126,7 +126,7 @@
 <body>
 
 <nav>
-  <a href="../../" class="nav-logo">Autegra<span>.</span></a>
+  <a href="../../" class="nav-logo"><img src="../../assets/images/logo.png" alt="Autegra" height="28" style="display:block;">Autegra</a>
   <ul class="nav-links">
     <li><a href="../../#services">Services</a></li>
     <li><a href="../../#cases">Work</a></li>
@@ -304,7 +304,7 @@ Lead data:
     </div>
 
     <div class="author-block">
-      <div class="author-avatar">A</div>
+      <img src="../../assets/images/logo.png" alt="Autegra" class="author-avatar">
       <div>
         <div class="author-name">Autegra</div>
         <div class="author-role">Automation & Integration Engineers</div>
@@ -337,7 +337,7 @@ Lead data:
 </div>
 
 <footer>
-  <a href="../../" class="footer-logo">Autegra<span>.</span></a>
+  <a href="../../" class="footer-logo"><img src="../../assets/images/logo.png" alt="Autegra" height="22" style="display:block;">Autegra</a>
   <p class="footer-copy">© 2026 Autegra. All rights reserved.</p>
   <a href="../" class="footer-back-link">
     <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
