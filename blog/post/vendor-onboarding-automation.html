@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>How we automated vendor onboarding and cut approval time by 90% — Autegra Blog</title>
+<meta name="description" content="How we replaced a 3-week manual vendor onboarding process with a zero-touch approval workflow that runs in under 2 days."/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--black:#0a0c0f;--white:#f5f4f0;--accent:#00e5a0;--accent-dim:rgba(0,229,160,0.12);--accent-border:rgba(0,229,160,0.35);--gray-1:#111318;--gray-2:#1a1d24;--gray-3:#252830;--gray-4:#373b45;--gray-5:#6b7080;--gray-6:#9da3b0;--font-display:'Syne',sans-serif;--font-body:'DM Sans',sans-serif}
+  html{scroll-behavior:smooth}
+  body{background:var(--black);color:var(--white);font-family:var(--font-body);font-size:16px;line-height:1.7;overflow-x:hidden}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.25rem 3rem;background:rgba(10,12,15,0.88);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,0.05)}
+  .nav-logo{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:800;font-size:1.25rem;letter-spacing:-0.03em;color:var(--white);text-decoration:none}
+  .nav-logo span{color:var(--accent)}
+  .nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center}
+  .nav-links a{color:var(--gray-6);text-decoration:none;font-size:0.875rem;font-weight:400;transition:color 0.2s}
+  .nav-links a:hover{color:var(--white)}
+  .nav-cta{background:var(--accent);color:var(--black)!important;padding:0.5rem 1.25rem;border-radius:100px;font-weight:500!important}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+  .hamburger span{display:block;width:24px;height:2px;background:var(--white);border-radius:2px;transition:all 0.3s}
+  .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .hamburger.open span:nth-child(2){opacity:0}
+  .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .mobile-menu{display:none;position:fixed;inset:0;background:rgba(10,12,15,0.98);backdrop-filter:blur(20px);z-index:150;flex-direction:column;align-items:center;justify-content:center;gap:2rem}
+  .mobile-menu.open{display:flex}
+  .mobile-menu a{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--white);text-decoration:none;transition:color 0.2s}
+  .mobile-menu a:hover{color:var(--accent)}
+  .mobile-menu .mobile-cta{background:var(--accent);color:var(--black)!important;padding:0.75rem 2rem;border-radius:100px;font-size:1.25rem!important;margin-top:1rem}
+
+  .post-layout{display:grid;grid-template-columns:1fr 300px;gap:5rem;max-width:1100px;margin:0 auto;padding:8rem 3rem 5rem;align-items:start}
+
+  .article-back{display:inline-flex;align-items:center;gap:0.4rem;color:var(--gray-5);font-size:0.875rem;text-decoration:none;margin-bottom:2rem;transition:color 0.2s}
+  .article-back:hover{color:var(--accent)}
+  .article-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+  .article-meta{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+  .article-cat{font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);font-weight:500;background:var(--accent-dim);border:1px solid var(--accent-border);padding:0.25rem 0.75rem;border-radius:100px}
+  .article-date{font-size:0.8125rem;color:var(--gray-5);font-weight:300}
+  .article-read{font-size:0.8125rem;color:var(--gray-5);font-weight:300;display:flex;align-items:center;gap:0.35rem}
+  .article-read svg{width:12px;height:12px;stroke:var(--gray-5);fill:none;stroke-width:2}
+
+  .article-title{font-family:var(--font-display);font-size:clamp(1.75rem,4vw,2.75rem);font-weight:800;letter-spacing:-0.04em;line-height:1.1;margin-bottom:1.5rem}
+
+  .article-hero{background:var(--gray-1);border:1px solid rgba(255,255,255,0.07);border-radius:16px;height:280px;display:flex;align-items:center;justify-content:center;margin-bottom:3rem;position:relative;overflow:hidden}
+  .hero-pattern{position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,160,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,160,0.05) 1px,transparent 1px);background-size:40px 40px}
+  .hero-icon{width:64px;height:64px;background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:16px;display:flex;align-items:center;justify-content:center;position:relative;z-index:1}
+  .hero-icon svg{width:28px;height:28px;stroke:var(--accent);fill:none;stroke-width:1.5}
+
+  .prose h2{font-family:var(--font-display);font-size:1.5rem;font-weight:700;letter-spacing:-0.03em;color:var(--white);margin:2.5rem 0 1rem;line-height:1.2}
+  .prose p{color:var(--gray-6);font-weight:300;font-size:0.9375rem;line-height:1.85;margin-bottom:1.25rem}
+  .prose strong{color:var(--white);font-weight:500}
+  .prose a{color:var(--accent);text-decoration:none}
+  .prose a:hover{text-decoration:underline}
+  .prose ul,.prose ol{padding-left:1.5rem;margin-bottom:1.25rem;color:var(--gray-6);font-size:0.9375rem;font-weight:300;line-height:1.8}
+  .prose li{margin-bottom:0.4rem}
+  .prose blockquote{border-left:2px solid var(--accent);padding:1rem 1.5rem;margin:1.5rem 0;background:var(--accent-dim);border-radius:0 10px 10px 0}
+  .prose blockquote p{color:var(--gray-6);font-style:italic;margin-bottom:0}
+
+  .callout{background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:12px;padding:1.25rem 1.5rem;margin:1.5rem 0;display:flex;gap:0.875rem}
+  .callout-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px}
+  .callout-text{font-size:0.9375rem;color:var(--gray-6);font-weight:300;line-height:1.7}
+  .callout-text strong{color:var(--white);font-weight:500}
+
+  .step-block{background:var(--gray-1);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:1.5rem;margin:1rem 0;display:flex;gap:1.25rem}
+  .step-num{font-family:var(--font-display);font-size:0.75rem;font-weight:700;color:var(--accent);letter-spacing:0.1em;min-width:28px;margin-top:3px}
+  .step-body h4{font-family:var(--font-display);font-size:0.9375rem;font-weight:700;color:var(--white);margin-bottom:0.4rem;letter-spacing:-0.02em}
+  .step-body p{font-size:0.875rem;color:var(--gray-5);font-weight:300;line-height:1.7;margin:0}
+
+  .author-block{display:flex;align-items:center;gap:1rem;padding:1.5rem 0;border-top:1px solid rgba(255,255,255,0.06);margin-top:2.5rem}
+  .author-avatar{width:48px;height:48px;border-radius:50%;border:1.5px solid var(--accent-border);object-fit:cover;flex-shrink:0}
+  .author-name{font-size:0.9375rem;font-weight:500;color:var(--white);margin-bottom:0.1rem}
+  .author-role{font-size:0.8125rem;color:var(--gray-5);font-weight:300}
+
+  .sidebar{position:sticky;top:6rem}
+  .sidebar-card{background:var(--gray-1);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem}
+  .sidebar-title{font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-5);font-weight:500;margin-bottom:1rem}
+  .toc-list{list-style:none;display:flex;flex-direction:column;gap:0.5rem}
+  .toc-list a{font-size:0.875rem;color:var(--gray-5);text-decoration:none;font-weight:300;display:block;transition:color 0.2s;line-height:1.4}
+  .toc-list a:hover{color:var(--accent)}
+  .toc-list a.active{color:var(--accent);font-weight:500}
+
+  .sidebar-cta{background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:16px;padding:1.5rem}
+  .sidebar-cta-title{font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--white);margin-bottom:0.5rem;letter-spacing:-0.02em}
+  .sidebar-cta-text{font-size:0.8125rem;color:var(--gray-6);font-weight:300;line-height:1.6;margin-bottom:1.25rem}
+  .sidebar-cta-btn{display:block;background:var(--accent);color:var(--black);padding:0.6rem 1rem;border-radius:100px;text-align:center;text-decoration:none;font-size:0.875rem;font-weight:500;transition:opacity 0.2s}
+  .sidebar-cta-btn:hover{opacity:0.88}
+
+  footer{padding:2.5rem 3rem;border-top:1px solid rgba(255,255,255,0.06);background:var(--gray-1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+  .footer-logo{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:800;font-size:1rem;color:var(--white);letter-spacing:-0.03em;text-decoration:none}
+  .footer-logo span{color:var(--accent)}
+  .footer-copy{font-size:0.8125rem;color:var(--gray-5);font-weight:300}
+  .footer-back-link{font-size:0.875rem;color:var(--gray-6);text-decoration:none;display:flex;align-items:center;gap:0.4rem;transition:color 0.2s}
+  .footer-back-link:hover{color:var(--accent)}
+  .footer-back-link svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+  @media(max-width:900px){
+    nav{padding:1rem 1.5rem}
+    .nav-links{display:none}
+    .hamburger{display:flex}
+    .post-layout{grid-template-columns:1fr;gap:3rem;padding:6rem 1.5rem 4rem}
+    .sidebar{position:static}
+    footer{flex-direction:column;text-align:center}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../../" class="nav-logo"><img src="../../assets/images/logo.png" alt="Autegra" height="28" style="display:block;">Autegra</a>
+  <ul class="nav-links">
+    <li><a href="../../#services">Services</a></li>
+    <li><a href="../../#cases">Work</a></li>
+    <li><a href="../../#about">About</a></li>
+    <li><a href="../" style="color:var(--white)">Blog</a></li>
+    <li><a href="../../contact/contact.html" class="nav-cta">Get in touch</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../../#services" class="mobile-link">Services</a>
+  <a href="../../#cases" class="mobile-link">Work</a>
+  <a href="../../#about" class="mobile-link">About</a>
+  <a href="../" class="mobile-link">Blog</a>
+  <a href="../../contact/contact.html" class="mobile-link mobile-cta">Get in touch</a>
+</div>
+
+<div class="post-layout">
+
+  <article>
+    <a href="../" class="article-back">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to blog
+    </a>
+
+    <div class="article-meta">
+      <span class="article-cat">Automation</span>
+      <span class="article-date">April 3, 2026</span>
+      <span class="article-read"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>6 min read</span>
+    </div>
+
+    <h1 class="article-title">How we automated vendor onboarding and cut approval time by 90%</h1>
+
+    <div class="article-hero">
+      <div class="hero-pattern"></div>
+      <div class="hero-icon"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></div>
+    </div>
+
+    <div class="prose">
+
+      <p>A mid-size logistics company came to us with a familiar problem: onboarding a new vendor took an average of <strong>18 business days</strong>. Not because the work was hard — because it was scattered across six inboxes, three spreadsheets, and one person's memory of "who signed off on what."</p>
+
+      <p>We rebuilt the whole thing as a single automated pipeline. New approval time: <strong>under 2 days</strong>, with zero manual chasing.</p>
+
+      <h2 id="problem">Why vendor onboarding breaks down</h2>
+
+      <p>Every vendor onboarding involves the same handful of steps — intake form, compliance check, insurance verification, contract routing, finance setup — but almost nobody automates the handoffs between them. Each step lived with a different team, and nothing told the next team a step was done. Vendors sat in limbo because nobody was explicitly "on the hook" to move them forward.</p>
+
+      <div class="callout">
+        <span class="callout-icon">💡</span>
+        <div class="callout-text"><strong>The real bottleneck wasn't approval speed</strong> — it was that no single system tracked where a vendor was in the process. Everyone assumed someone else was handling it.</div>
+      </div>
+
+      <h2 id="intake">Step 1: A single intake source of truth</h2>
+
+      <p>We replaced the scattered intake emails with one structured form feeding directly into a Make scenario. The moment a vendor submits their details, a record is created in Airtable with a status field that every downstream step updates automatically — no more "let me check with someone."</p>
+
+      <h2 id="approvals">Step 2: Parallel, not sequential, approvals</h2>
+
+      <p>The old process ran compliance, insurance, and finance checks one after another, each waiting on the last. We re-architected it so all three run in parallel the moment intake completes, with Slack notifications routed directly to the right approver — not a shared inbox.</p>
+
+      <div class="step-block">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <h4>Auto-escalation</h4>
+          <p>If an approver hasn't responded within 24 hours, the workflow automatically escalates to their manager with a one-click approve/reject Slack action — no chasing required.</p>
+        </div>
+      </div>
+
+      <h2 id="provisioning">Step 3: Automatic system provisioning</h2>
+
+      <p>Once all three approvals land, the vendor is automatically created in the ERP, assigned a vendor ID, and added to the payment run schedule — the step that used to take the finance team an extra 3-4 days on its own.</p>
+
+      <h2 id="results">The results</h2>
+
+      <ul>
+        <li>Average onboarding time dropped from 18 days to under 2</li>
+        <li>Zero vendors "lost" in the process over 4 months of monitoring</li>
+        <li>The ops team reclaimed roughly 12 hours per week previously spent on status-chasing emails</li>
+      </ul>
+
+      <blockquote>
+        <p>"We didn't realize how much of our delay was just people not knowing whose turn it was. Fixing that alone was worth the project."</p>
+      </blockquote>
+
+      <p>If your onboarding process lives in someone's inbox, it's costing you more than you think. <a href="../../book/book.html">Book a discovery call</a> and we'll map out what's automatable.</p>
+
+    </div>
+
+    <div class="author-block">
+      <img src="../../assets/images/logo.png" alt="Autegra" class="author-avatar">
+      <div>
+        <div class="author-name">Autegra</div>
+        <div class="author-role">Automation & Integration Engineers</div>
+      </div>
+    </div>
+  </article>
+
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <p class="sidebar-title">In this article</p>
+      <ul class="toc-list">
+        <li><a href="#problem">Why onboarding breaks down</a></li>
+        <li><a href="#intake">Step 1: Single intake source</a></li>
+        <li><a href="#approvals">Step 2: Parallel approvals</a></li>
+        <li><a href="#provisioning">Step 3: Auto-provisioning</a></li>
+        <li><a href="#results">The results</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-cta">
+      <div class="sidebar-cta-title">Buried in manual approvals?</div>
+      <p class="sidebar-cta-text">We map and automate approval workflows like this in 1-2 weeks. Book a free discovery call.</p>
+      <a href="../../book/book.html" class="sidebar-cta-btn">Book a free call →</a>
+    </div>
+  </aside>
+
+</div>
+
+<footer>
+  <a href="../../" class="footer-logo"><img src="../../assets/images/logo.png" alt="Autegra" height="22" style="display:block;">Autegra</a>
+  <p class="footer-copy">© 2026 Autegra. All rights reserved.</p>
+  <a href="../" class="footer-back-link">
+    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to blog
+  </a>
+</footer>
+
+<script>
+  const hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobileMenu');
+  hamburger.addEventListener('click',()=>{hamburger.classList.toggle('open');mobileMenu.classList.toggle('open');document.body.style.overflow=mobileMenu.classList.contains('open')?'hidden':''});
+  document.querySelectorAll('.mobile-link').forEach(l=>l.addEventListener('click',()=>{hamburger.classList.remove('open');mobileMenu.classList.remove('open');document.body.style.overflow=''}));
+
+  const sections = document.querySelectorAll('h2[id]');
+  const tocLinks = document.querySelectorAll('.toc-list a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector('.toc-list a[href="#' + entry.target.id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

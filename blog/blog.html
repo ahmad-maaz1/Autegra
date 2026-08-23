@@ -79,6 +79,7 @@
   .blog-read-time svg{width:12px;height:12px;stroke:var(--gray-5);fill:none;stroke-width:2}
 
   .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+  .blog-card.extra-post{display:none}
 
   .newsletter-block{background:var(--gray-1);border:1px solid rgba(255,255,255,0.07);border-radius:20px;padding:3rem;text-align:center;margin-top:4rem;position:relative;overflow:hidden}
   .newsletter-block::before{content:'';position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:300px;height:300px;background:radial-gradient(circle,rgba(0,229,160,0.08) 0%,transparent 70%);pointer-events:none}
@@ -146,14 +147,15 @@
 <main>
 
   <div class="blog-filters reveal">
-    <button class="filter-btn active">All posts</button>
-    <button class="filter-btn">Automation</button>
-    <button class="filter-btn">API Integration</button>
-    <button class="filter-btn">AI & LLMs</button>
-    <button class="filter-btn">E-commerce</button>
-    <button class="filter-btn">Case Studies</button>
-    <button class="filter-btn">Tutorials</button>
+    <button class="filter-btn active" data-filter="all">All posts</button>
+    <button class="filter-btn" data-filter="automation">Automation</button>
+    <button class="filter-btn" data-filter="api-integration">API Integration</button>
+    <button class="filter-btn" data-filter="ai-llms">AI & LLMs</button>
+    <button class="filter-btn" data-filter="ecommerce">E-commerce</button>
+    <button class="filter-btn" data-filter="case-studies">Case Studies</button>
+    <button class="filter-btn" data-filter="tutorials">Tutorials</button>
   </div>
+  <p class="filter-empty" id="filterEmpty" style="display:none;color:var(--gray-5);font-weight:300;margin:-1.5rem 0 3rem;">No posts in this category yet.</p>
 
   <!-- Featured row -->
   <div class="blog-featured reveal">
@@ -215,7 +217,7 @@
   <!-- Article grid -->
   <div class="blog-grid">
 
-    <a href="post/blogPost.html" class="blog-card reveal">
+    <a href="post/blogPost.html" class="blog-card reveal" data-category="case-studies">
       <div class="blog-card-thumb">
         <div class="blog-thumb-pattern"></div>
         <div class="blog-thumb-icon">
@@ -230,7 +232,7 @@
       </div>
     </a>
 
-    <a href="post/blogPost.html" class="blog-card reveal">
+    <a href="post/blogPost.html" class="blog-card reveal" data-category="tutorials">
       <div class="blog-card-thumb">
         <div class="blog-thumb-pattern"></div>
         <div class="blog-thumb-icon">
@@ -245,7 +247,7 @@
       </div>
     </a>
 
-    <a href="post/blogPost.html" class="blog-card reveal">
+    <a href="post/blogPost.html" class="blog-card reveal" data-category="automation">
       <div class="blog-card-thumb">
         <div class="blog-thumb-pattern"></div>
         <div class="blog-thumb-icon">
@@ -260,7 +262,7 @@
       </div>
     </a>
 
-    <a href="post/blogPost.html" class="blog-card reveal">
+    <a href="post/blogPost.html" class="blog-card reveal" data-category="ecommerce">
       <div class="blog-card-thumb">
         <div class="blog-thumb-pattern"></div>
         <div class="blog-thumb-icon">
@@ -275,7 +277,7 @@
       </div>
     </a>
 
-    <a href="post/blogPost.html" class="blog-card reveal">
+    <a href="post/blogPost.html" class="blog-card reveal" data-category="ai-llms">
       <div class="blog-card-thumb">
         <div class="blog-thumb-pattern"></div>
         <div class="blog-thumb-icon">
@@ -290,7 +292,7 @@
       </div>
     </a>
 
-    <a href="post/blogPost.html" class="blog-card reveal">
+    <a href="post/blogPost.html" class="blog-card reveal" data-category="api-integration">
       <div class="blog-card-thumb">
         <div class="blog-thumb-pattern"></div>
         <div class="blog-thumb-icon">
@@ -301,6 +303,186 @@
         <div class="blog-meta"><span class="blog-cat">API Integration</span><span class="blog-date">Jan 15, 2026</span></div>
         <div class="blog-title">How to design a robust data pipeline between two CRMs</div>
         <p class="blog-excerpt">Bidirectional sync without duplicates, conflicts, or data loss — the architectural decisions that matter most.</p>
+        <div class="blog-read-more">Read article <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </div>
+    </a>
+
+    <a href="post/vendor-onboarding-automation.html" class="blog-card reveal extra-post" data-category="automation">
+      <div class="blog-card-thumb">
+        <div class="blog-thumb-pattern"></div>
+        <div class="blog-thumb-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-meta"><span class="blog-cat">Automation</span><span class="blog-date">Apr 3, 2026</span></div>
+        <div class="blog-title">How we automated vendor onboarding and cut approval time by 90%</div>
+        <p class="blog-excerpt">The exact workflow we built to take vendor approval from 18 days down to under 2, with zero manual chasing.</p>
+        <div class="blog-read-more">Read article <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </div>
+    </a>
+
+    <a href="post/revops-automation-stack.html" class="blog-card reveal extra-post" data-category="automation">
+      <div class="blog-card-thumb">
+        <div class="blog-thumb-pattern"></div>
+        <div class="blog-thumb-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-meta"><span class="blog-cat">Automation</span><span class="blog-date">Mar 27, 2026</span></div>
+        <div class="blog-title">The RevOps automation stack we'd build from scratch in 2026</div>
+        <p class="blog-excerpt">If we were starting your RevOps automation from zero, here's exactly which layers we'd build first and why.</p>
+        <div class="blog-read-more">Read article <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </div>
+    </a>
+
+    <a href="post/idempotency-keys-api-integration.html" class="blog-card reveal extra-post" data-category="api-integration">
+      <div class="blog-card-thumb">
+        <div class="blog-thumb-pattern"></div>
+        <div class="blog-thumb-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg>
+        </div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-meta"><span class="blog-cat">API Integration</span><span class="blog-date">Mar 20, 2026</span></div>
+        <div class="blog-title">Idempotency keys: the API bug that costs companies the most money</div>
+        <p class="blog-excerpt">Duplicate charges and double-shipped orders almost always trace back to one missing concept.</p>
+        <div class="blog-read-more">Read article <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </div>
+    </a>
+
+    <a href="post/rate-limit-proof-integrations.html" class="blog-card reveal extra-post" data-category="api-integration">
+      <div class="blog-card-thumb">
+        <div class="blog-thumb-pattern"></div>
+        <div class="blog-thumb-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg>
+        </div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-meta"><span class="blog-cat">API Integration</span><span class="blog-date">Mar 5, 2026</span></div>
+        <div class="blog-title">Building a rate-limit-proof integration: lessons from 50M+ monthly API calls</div>
+        <p class="blog-excerpt">What we learned processing 50 million+ API calls a month without ever getting throttled.</p>
+        <div class="blog-read-more">Read article <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </div>
+    </a>
+
+    <a href="post/ai-support-triage-workflow.html" class="blog-card reveal extra-post" data-category="ai-llms">
+      <div class="blog-card-thumb">
+        <div class="blog-thumb-pattern"></div>
+        <div class="blog-thumb-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-meta"><span class="blog-cat">AI & LLMs</span><span class="blog-date">Apr 8, 2026</span></div>
+        <div class="blog-title">We replaced a 12-person support triage queue with one GPT-4 workflow</div>
+        <p class="blog-excerpt">First-response time dropped from 6 hours to under 2 minutes. Here's the full architecture.</p>
+        <div class="blog-read-more">Read article <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </div>
+    </a>
+
+    <a href="post/prompt-engineering-patterns.html" class="blog-card reveal extra-post" data-category="ai-llms">
+      <div class="blog-card-thumb">
+        <div class="blog-thumb-pattern"></div>
+        <div class="blog-thumb-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-meta"><span class="blog-cat">AI & LLMs</span><span class="blog-date">Mar 14, 2026</span></div>
+        <div class="blog-title">Prompt engineering for automation: 7 patterns that hold up in production</div>
+        <p class="blog-excerpt">The patterns we've found actually survive running unattended, thousands of times a day.</p>
+        <div class="blog-read-more">Read article <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </div>
+    </a>
+
+    <a href="post/zero-touch-returns-automation.html" class="blog-card reveal extra-post" data-category="ecommerce">
+      <div class="blog-card-thumb">
+        <div class="blog-thumb-pattern"></div>
+        <div class="blog-thumb-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+        </div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-meta"><span class="blog-cat">E-commerce</span><span class="blog-date">Mar 29, 2026</span></div>
+        <div class="blog-title">How we built a zero-touch RMA system for a $20M DTC brand</div>
+        <p class="blog-excerpt">60% of returns now process with zero human touch. Here's how the system works.</p>
+        <div class="blog-read-more">Read article <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </div>
+    </a>
+
+    <a href="post/multichannel-restock-alerts.html" class="blog-card reveal extra-post" data-category="ecommerce">
+      <div class="blog-card-thumb">
+        <div class="blog-thumb-pattern"></div>
+        <div class="blog-thumb-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+        </div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-meta"><span class="blog-cat">E-commerce</span><span class="blog-date">Mar 12, 2026</span></div>
+        <div class="blog-title">Same-day restock alerts across 6 sales channels: the architecture</div>
+        <p class="blog-excerpt">How we built a real-time inventory system spanning Shopify, Amazon, TikTok Shop, and more.</p>
+        <div class="blog-read-more">Read article <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </div>
+    </a>
+
+    <a href="post/logistics-data-entry-case-study.html" class="blog-card reveal extra-post" data-category="case-studies">
+      <div class="blog-card-thumb">
+        <div class="blog-thumb-pattern"></div>
+        <div class="blog-thumb-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+        </div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-meta"><span class="blog-cat">Case Study</span><span class="blog-date">Mar 18, 2026</span></div>
+        <div class="blog-title">How a logistics company eliminated 3 full-time data-entry roles</div>
+        <p class="blog-excerpt">One Make scenario replaced the job of three people re-keying shipment data by hand.</p>
+        <div class="blog-read-more">Read article <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </div>
+    </a>
+
+    <a href="post/fintech-onboarding-case-study.html" class="blog-card reveal extra-post" data-category="case-studies">
+      <div class="blog-card-thumb">
+        <div class="blog-thumb-pattern"></div>
+        <div class="blog-thumb-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+        </div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-meta"><span class="blog-cat">Case Study</span><span class="blog-date">Feb 24, 2026</span></div>
+        <div class="blog-title">Cutting customer onboarding from 2 weeks to 48 hours for a fintech client</div>
+        <p class="blog-excerpt">Automating KYC document collection took onboarding from 2 weeks to under 2 days.</p>
+        <div class="blog-read-more">Read article <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </div>
+    </a>
+
+    <a href="post/make-scenario-beginner-tutorial.html" class="blog-card reveal extra-post" data-category="tutorials">
+      <div class="blog-card-thumb">
+        <div class="blog-thumb-pattern"></div>
+        <div class="blog-thumb-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+        </div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-meta"><span class="blog-cat">Tutorial</span><span class="blog-date">Mar 6, 2026</span></div>
+        <div class="blog-title">A beginner's guide to building your first Make.com scenario in 20 minutes</div>
+        <p class="blog-excerpt">A step-by-step walkthrough — no prior experience with automation tools required.</p>
+        <div class="blog-read-more">Read article <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </div>
+    </a>
+
+    <a href="post/zapier-retry-logic-tutorial.html" class="blog-card reveal extra-post" data-category="tutorials">
+      <div class="blog-card-thumb">
+        <div class="blog-thumb-pattern"></div>
+        <div class="blog-thumb-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+        </div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-meta"><span class="blog-cat">Tutorial</span><span class="blog-date">Feb 18, 2026</span></div>
+        <div class="blog-title">How to build bulletproof retry logic in Zapier (with real examples)</div>
+        <p class="blog-excerpt">Zapier's built-in retries help, but they're not enough on their own. Here's the pattern we use.</p>
         <div class="blog-read-more">Read article <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
       </div>
     </a>
@@ -333,8 +515,45 @@
   hamburger.addEventListener('click',()=>{hamburger.classList.toggle('open');mobileMenu.classList.toggle('open');document.body.style.overflow=mobileMenu.classList.contains('open')?'hidden':''});
   document.querySelectorAll('.mobile-link').forEach(l=>l.addEventListener('click',()=>{hamburger.classList.remove('open');mobileMenu.classList.remove('open');document.body.style.overflow=''}));
 
-  document.querySelectorAll('.filter-btn').forEach(btn=>{
-    btn.addEventListener('click',()=>{document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active')});
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const featuredRow = document.querySelector('.blog-featured');
+  const gridCards = document.querySelectorAll('.blog-grid .blog-card');
+  const filterEmpty = document.getElementById('filterEmpty');
+
+  filterBtns.forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      filterBtns.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter;
+      featuredRow.style.display = filter === 'all' ? '' : 'none';
+
+      let visibleCount = 0;
+      const toAnimate = [];
+      gridCards.forEach(card=>{
+        const isExtra = card.classList.contains('extra-post');
+        const match = filter === 'all' ? !isExtra : card.dataset.category === filter;
+        if (match) {
+          card.style.display = 'flex';
+          card.classList.remove('visible');
+          toAnimate.push(card);
+          visibleCount++;
+        } else {
+          card.classList.remove('visible');
+          card.style.display = 'none';
+        }
+      });
+
+      // Force a reflow so the removed 'visible' class is registered before
+      // re-adding it — otherwise the browser skips the transition entirely.
+      void document.body.offsetWidth;
+
+      toAnimate.forEach((card, i) => {
+        setTimeout(() => card.classList.add('visible'), 30 + i * 60);
+      });
+
+      filterEmpty.style.display = visibleCount === 0 ? 'block' : 'none';
+    });
   });
 
   const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:0.1});
