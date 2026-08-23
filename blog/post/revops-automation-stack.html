@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The RevOps automation stack we'd build from scratch in 2026 — Autegra Blog</title>
+<meta name="description" content="If we were setting up RevOps automation for a new client today, here's exactly which layers we'd build first and why."/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--black:#0a0c0f;--white:#f5f4f0;--accent:#00e5a0;--accent-dim:rgba(0,229,160,0.12);--accent-border:rgba(0,229,160,0.35);--gray-1:#111318;--gray-2:#1a1d24;--gray-3:#252830;--gray-4:#373b45;--gray-5:#6b7080;--gray-6:#9da3b0;--font-display:'Syne',sans-serif;--font-body:'DM Sans',sans-serif}
+  html{scroll-behavior:smooth}
+  body{background:var(--black);color:var(--white);font-family:var(--font-body);font-size:16px;line-height:1.7;overflow-x:hidden}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.25rem 3rem;background:rgba(10,12,15,0.88);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,0.05)}
+  .nav-logo{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:800;font-size:1.25rem;letter-spacing:-0.03em;color:var(--white);text-decoration:none}
+  .nav-logo span{color:var(--accent)}
+  .nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center}
+  .nav-links a{color:var(--gray-6);text-decoration:none;font-size:0.875rem;font-weight:400;transition:color 0.2s}
+  .nav-links a:hover{color:var(--white)}
+  .nav-cta{background:var(--accent);color:var(--black)!important;padding:0.5rem 1.25rem;border-radius:100px;font-weight:500!important}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+  .hamburger span{display:block;width:24px;height:2px;background:var(--white);border-radius:2px;transition:all 0.3s}
+  .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .hamburger.open span:nth-child(2){opacity:0}
+  .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .mobile-menu{display:none;position:fixed;inset:0;background:rgba(10,12,15,0.98);backdrop-filter:blur(20px);z-index:150;flex-direction:column;align-items:center;justify-content:center;gap:2rem}
+  .mobile-menu.open{display:flex}
+  .mobile-menu a{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--white);text-decoration:none;transition:color 0.2s}
+  .mobile-menu a:hover{color:var(--accent)}
+  .mobile-menu .mobile-cta{background:var(--accent);color:var(--black)!important;padding:0.75rem 2rem;border-radius:100px;font-size:1.25rem!important;margin-top:1rem}
+
+  .post-layout{display:grid;grid-template-columns:1fr 300px;gap:5rem;max-width:1100px;margin:0 auto;padding:8rem 3rem 5rem;align-items:start}
+
+  .article-back{display:inline-flex;align-items:center;gap:0.4rem;color:var(--gray-5);font-size:0.875rem;text-decoration:none;margin-bottom:2rem;transition:color 0.2s}
+  .article-back:hover{color:var(--accent)}
+  .article-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+  .article-meta{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+  .article-cat{font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);font-weight:500;background:var(--accent-dim);border:1px solid var(--accent-border);padding:0.25rem 0.75rem;border-radius:100px}
+  .article-date{font-size:0.8125rem;color:var(--gray-5);font-weight:300}
+  .article-read{font-size:0.8125rem;color:var(--gray-5);font-weight:300;display:flex;align-items:center;gap:0.35rem}
+  .article-read svg{width:12px;height:12px;stroke:var(--gray-5);fill:none;stroke-width:2}
+
+  .article-title{font-family:var(--font-display);font-size:clamp(1.75rem,4vw,2.75rem);font-weight:800;letter-spacing:-0.04em;line-height:1.1;margin-bottom:1.5rem}
+
+  .article-hero{background:var(--gray-1);border:1px solid rgba(255,255,255,0.07);border-radius:16px;height:280px;display:flex;align-items:center;justify-content:center;margin-bottom:3rem;position:relative;overflow:hidden}
+  .hero-pattern{position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,160,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,160,0.05) 1px,transparent 1px);background-size:40px 40px}
+  .hero-icon{width:64px;height:64px;background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:16px;display:flex;align-items:center;justify-content:center;position:relative;z-index:1}
+  .hero-icon svg{width:28px;height:28px;stroke:var(--accent);fill:none;stroke-width:1.5}
+
+  .prose h2{font-family:var(--font-display);font-size:1.5rem;font-weight:700;letter-spacing:-0.03em;color:var(--white);margin:2.5rem 0 1rem;line-height:1.2}
+  .prose h3{font-family:var(--font-display);font-size:1.125rem;font-weight:700;letter-spacing:-0.02em;color:var(--white);margin:2rem 0 0.875rem;line-height:1.3}
+  .prose p{color:var(--gray-6);font-weight:300;font-size:0.9375rem;line-height:1.85;margin-bottom:1.25rem}
+  .prose strong{color:var(--white);font-weight:500}
+  .prose a{color:var(--accent);text-decoration:none}
+  .prose a:hover{text-decoration:underline}
+  .prose ul,.prose ol{padding-left:1.5rem;margin-bottom:1.25rem;color:var(--gray-6);font-size:0.9375rem;font-weight:300;line-height:1.8}
+  .prose li{margin-bottom:0.4rem}
+
+  .callout{background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:12px;padding:1.25rem 1.5rem;margin:1.5rem 0;display:flex;gap:0.875rem}
+  .callout-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px}
+  .callout-text{font-size:0.9375rem;color:var(--gray-6);font-weight:300;line-height:1.7}
+  .callout-text strong{color:var(--white);font-weight:500}
+
+  .author-block{display:flex;align-items:center;gap:1rem;padding:1.5rem 0;border-top:1px solid rgba(255,255,255,0.06);margin-top:2.5rem}
+  .author-avatar{width:48px;height:48px;border-radius:50%;border:1.5px solid var(--accent-border);object-fit:cover;flex-shrink:0}
+  .author-name{font-size:0.9375rem;font-weight:500;color:var(--white);margin-bottom:0.1rem}
+  .author-role{font-size:0.8125rem;color:var(--gray-5);font-weight:300}
+
+  .sidebar{position:sticky;top:6rem}
+  .sidebar-card{background:var(--gray-1);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem}
+  .sidebar-title{font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-5);font-weight:500;margin-bottom:1rem}
+  .toc-list{list-style:none;display:flex;flex-direction:column;gap:0.5rem}
+  .toc-list a{font-size:0.875rem;color:var(--gray-5);text-decoration:none;font-weight:300;display:block;transition:color 0.2s;line-height:1.4}
+  .toc-list a:hover{color:var(--accent)}
+  .toc-list a.active{color:var(--accent);font-weight:500}
+
+  .sidebar-cta{background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:16px;padding:1.5rem}
+  .sidebar-cta-title{font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--white);margin-bottom:0.5rem;letter-spacing:-0.02em}
+  .sidebar-cta-text{font-size:0.8125rem;color:var(--gray-6);font-weight:300;line-height:1.6;margin-bottom:1.25rem}
+  .sidebar-cta-btn{display:block;background:var(--accent);color:var(--black);padding:0.6rem 1rem;border-radius:100px;text-align:center;text-decoration:none;font-size:0.875rem;font-weight:500;transition:opacity 0.2s}
+  .sidebar-cta-btn:hover{opacity:0.88}
+
+  footer{padding:2.5rem 3rem;border-top:1px solid rgba(255,255,255,0.06);background:var(--gray-1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+  .footer-logo{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:800;font-size:1rem;color:var(--white);letter-spacing:-0.03em;text-decoration:none}
+  .footer-logo span{color:var(--accent)}
+  .footer-copy{font-size:0.8125rem;color:var(--gray-5);font-weight:300}
+  .footer-back-link{font-size:0.875rem;color:var(--gray-6);text-decoration:none;display:flex;align-items:center;gap:0.4rem;transition:color 0.2s}
+  .footer-back-link:hover{color:var(--accent)}
+  .footer-back-link svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+  @media(max-width:900px){
+    nav{padding:1rem 1.5rem}
+    .nav-links{display:none}
+    .hamburger{display:flex}
+    .post-layout{grid-template-columns:1fr;gap:3rem;padding:6rem 1.5rem 4rem}
+    .sidebar{position:static}
+    footer{flex-direction:column;text-align:center}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../../" class="nav-logo"><img src="../../assets/images/logo.png" alt="Autegra" height="28" style="display:block;">Autegra</a>
+  <ul class="nav-links">
+    <li><a href="../../#services">Services</a></li>
+    <li><a href="../../#cases">Work</a></li>
+    <li><a href="../../#about">About</a></li>
+    <li><a href="../" style="color:var(--white)">Blog</a></li>
+    <li><a href="../../contact/contact.html" class="nav-cta">Get in touch</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../../#services" class="mobile-link">Services</a>
+  <a href="../../#cases" class="mobile-link">Work</a>
+  <a href="../../#about" class="mobile-link">About</a>
+  <a href="../" class="mobile-link">Blog</a>
+  <a href="../../contact/contact.html" class="mobile-link mobile-cta">Get in touch</a>
+</div>
+
+<div class="post-layout">
+
+  <article>
+    <a href="../" class="article-back">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to blog
+    </a>
+
+    <div class="article-meta">
+      <span class="article-cat">Automation</span>
+      <span class="article-date">March 27, 2026</span>
+      <span class="article-read"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5 min read</span>
+    </div>
+
+    <h1 class="article-title">The RevOps automation stack we'd build from scratch in 2026</h1>
+
+    <div class="article-hero">
+      <div class="hero-pattern"></div>
+      <div class="hero-icon"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></div>
+    </div>
+
+    <div class="prose">
+
+      <p>We get asked some version of this question almost every month: "if you were starting our RevOps automation from zero, what would you actually build first?" So here's our honest answer — the three layers we'd prioritize before anything else, in order.</p>
+
+      <h2 id="why">Why order matters here</h2>
+
+      <p>Most teams automate whatever's loudest that week — a broken lead routing rule, a reporting gap, a one-off integration request. That's how you end up with a pile of disconnected automations that don't talk to each other. Building in layers, bottom-up, avoids that.</p>
+
+      <h2 id="layer1">Layer 1: A single source of truth for the record</h2>
+
+      <p>Before anything else, every system that touches a customer record — CRM, billing, support, product — needs to agree on one canonical ID and a sync rule for who "wins" when data conflicts. Skip this and every automation you build on top will eventually break on an edge case nobody predicted.</p>
+
+      <div class="callout">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-text"><strong>This is the layer everyone skips</strong> — because it's unglamorous. But every RevOps automation failure we've debugged traces back to a missing or ambiguous source of truth.</div>
+      </div>
+
+      <h2 id="layer2">Layer 2: Lifecycle-stage automation</h2>
+
+      <p>Once the record layer is solid, automate the handoffs between lifecycle stages: lead → MQL → SQL → opportunity → customer. Each transition should fire real actions — task creation, Slack pings, sequence enrollment — not just a status field nobody looks at.</p>
+
+      <h3>What we automate here for most clients</h3>
+      <ul>
+        <li>Auto-scoring and routing on lead creation</li>
+        <li>Stage-change notifications to the right owner, not a shared channel</li>
+        <li>Automatic disqualification rules for stale opportunities</li>
+      </ul>
+
+      <h2 id="layer3">Layer 3: Reporting that updates itself</h2>
+
+      <p>Only after the first two layers are solid do we touch reporting. Dashboards built on top of a shaky data layer just make bad data look official. Once the foundation holds, we wire dashboards to refresh automatically from the same source-of-truth records — no manual CSV exports, ever.</p>
+
+      <h2 id="verdict">The verdict</h2>
+
+      <p>Most RevOps automation projects fail not because the automation logic is wrong, but because it's built on top of a shaky data foundation. Get the record layer right first, and everything you build after it gets dramatically easier.</p>
+
+      <p>Want a second opinion on your current stack? <a href="../../contact/contact.html">Get in touch</a> and we'll tell you honestly where the gaps are.</p>
+
+    </div>
+
+    <div class="author-block">
+      <img src="../../assets/images/logo.png" alt="Autegra" class="author-avatar">
+      <div>
+        <div class="author-name">Autegra</div>
+        <div class="author-role">Automation & Integration Engineers</div>
+      </div>
+    </div>
+  </article>
+
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <p class="sidebar-title">In this article</p>
+      <ul class="toc-list">
+        <li><a href="#why">Why order matters</a></li>
+        <li><a href="#layer1">Layer 1: Source of truth</a></li>
+        <li><a href="#layer2">Layer 2: Lifecycle automation</a></li>
+        <li><a href="#layer3">Layer 3: Self-updating reporting</a></li>
+        <li><a href="#verdict">The verdict</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-cta">
+      <div class="sidebar-cta-title">Not sure where your stack stands?</div>
+      <p class="sidebar-cta-text">We'll audit your current RevOps setup and tell you honestly what to fix first.</p>
+      <a href="../../contact/contact.html" class="sidebar-cta-btn">Get in touch →</a>
+    </div>
+  </aside>
+
+</div>
+
+<footer>
+  <a href="../../" class="footer-logo"><img src="../../assets/images/logo.png" alt="Autegra" height="22" style="display:block;">Autegra</a>
+  <p class="footer-copy">© 2026 Autegra. All rights reserved.</p>
+  <a href="../" class="footer-back-link">
+    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to blog
+  </a>
+</footer>
+
+<script>
+  const hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobileMenu');
+  hamburger.addEventListener('click',()=>{hamburger.classList.toggle('open');mobileMenu.classList.toggle('open');document.body.style.overflow=mobileMenu.classList.contains('open')?'hidden':''});
+  document.querySelectorAll('.mobile-link').forEach(l=>l.addEventListener('click',()=>{hamburger.classList.remove('open');mobileMenu.classList.remove('open');document.body.style.overflow=''}));
+
+  const sections = document.querySelectorAll('h2[id]');
+  const tocLinks = document.querySelectorAll('.toc-list a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector('.toc-list a[href="#' + entry.target.id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
