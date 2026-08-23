@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Workflow Automation — Autegra</title>
+<meta name="description" content="Eliminate repetitive manual tasks with reliable automated workflows built in Make, Zapier, and n8n."/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--black:#0a0c0f;--white:#f5f4f0;--accent:#00e5a0;--accent-dim:rgba(0,229,160,0.12);--accent-border:rgba(0,229,160,0.35);--gray-1:#111318;--gray-2:#1a1d24;--gray-3:#252830;--gray-4:#373b45;--gray-5:#6b7080;--gray-6:#9da3b0;--font-display:'Syne',sans-serif;--font-body:'DM Sans',sans-serif}
+  html{scroll-behavior:smooth}
+  body{background:var(--black);color:var(--white);font-family:var(--font-body);font-size:16px;line-height:1.7;overflow-x:hidden}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.25rem 3rem;background:rgba(10,12,15,0.88);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,0.05)}
+  .nav-logo{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:800;font-size:1.25rem;letter-spacing:-0.03em;color:var(--white);text-decoration:none}
+  .nav-logo span{color:var(--accent)}
+  .nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center}
+  .nav-links a{color:var(--gray-6);text-decoration:none;font-size:0.875rem;font-weight:400;transition:color 0.2s}
+  .nav-links a:hover{color:var(--white)}
+  .nav-cta{background:var(--accent);color:var(--black)!important;padding:0.5rem 1.25rem;border-radius:100px;font-weight:500!important}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+  .hamburger span{display:block;width:24px;height:2px;background:var(--white);border-radius:2px;transition:all 0.3s}
+  .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .hamburger.open span:nth-child(2){opacity:0}
+  .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .mobile-menu{display:none;position:fixed;inset:0;background:rgba(10,12,15,0.98);backdrop-filter:blur(20px);z-index:150;flex-direction:column;align-items:center;justify-content:center;gap:2rem}
+  .mobile-menu.open{display:flex}
+  .mobile-menu a{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--white);text-decoration:none;transition:color 0.2s}
+  .mobile-menu a:hover{color:var(--accent)}
+  .mobile-menu .mobile-cta{background:var(--accent);color:var(--black)!important;padding:0.75rem 2rem;border-radius:100px;font-size:1.25rem!important;margin-top:1rem}
+
+  .section-tag{font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem}
+  .section-tag::before{content:'';width:14px;height:1px;background:var(--accent);display:block}
+
+  /* Hero */
+  .service-hero{max-width:1200px;margin:0 auto;padding:9rem 3rem 4rem;position:relative;overflow:hidden}
+  .service-hero::before{content:'';position:absolute;top:-120px;right:-120px;width:420px;height:420px;background:radial-gradient(circle,rgba(0,229,160,0.08) 0%,transparent 70%);pointer-events:none}
+  .service-hero-icon{width:56px;height:56px;border:1px solid var(--accent-border);background:var(--accent-dim);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem}
+  .service-hero-icon svg{width:24px;height:24px;stroke:var(--accent);fill:none;stroke-width:1.5}
+  .service-hero h1{font-family:var(--font-display);font-size:clamp(2.25rem,4.5vw,3.5rem);font-weight:800;letter-spacing:-0.04em;line-height:1.05;margin-bottom:1.25rem}
+  .service-hero h1 em{font-style:italic;font-weight:300;color:var(--gray-5)}
+  .service-hero-sub{color:var(--gray-6);font-weight:300;font-size:1.125rem;line-height:1.8;max-width:56ch}
+
+  /* Section shell */
+  .service-section{max-width:1200px;margin:0 auto;padding:3rem 3rem 5rem}
+  .service-section-title{font-family:var(--font-display);font-size:clamp(1.5rem,3vw,2.25rem);font-weight:800;letter-spacing:-0.03em;margin-bottom:2.5rem}
+  .service-section-title em{font-style:italic;font-weight:300;color:var(--gray-5)}
+
+  /* Includes grid */
+  .includes-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem}
+  .include-item{display:flex;align-items:flex-start;gap:1rem;background:var(--gray-1);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:1.5rem}
+  .include-check{width:32px;height:32px;border-radius:9px;background:var(--accent-dim);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .include-check svg{width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:2.5}
+  .include-text{font-size:0.9375rem;color:var(--gray-6);font-weight:300;line-height:1.6;padding-top:4px}
+  .include-text strong{color:var(--white);font-weight:500}
+
+  /* Process steps */
+  .process-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+  .process-step{background:var(--gray-1);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:2rem}
+  .process-step-num{font-family:var(--font-display);font-size:0.8125rem;font-weight:700;color:var(--accent);letter-spacing:0.08em;margin-bottom:1rem}
+  .process-step-title{font-family:var(--font-display);font-size:1.125rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:0.75rem}
+  .process-step-desc{font-size:0.875rem;color:var(--gray-6);font-weight:300;line-height:1.7}
+
+  /* CTA */
+  .service-cta{background:var(--gray-1);border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06)}
+  .service-cta-inner{max-width:1200px;margin:0 auto;padding:5rem 3rem;text-align:center}
+  .service-cta h2{font-family:var(--font-display);font-size:clamp(1.75rem,3.5vw,2.5rem);font-weight:800;letter-spacing:-0.03em;margin-bottom:1rem}
+  .service-cta h2 em{font-style:italic;font-weight:300;color:var(--gray-5)}
+  .service-cta p{color:var(--gray-6);font-weight:300;font-size:1rem;max-width:48ch;margin:0 auto 2rem}
+  .cta-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+  .btn-primary{display:inline-flex;align-items:center;gap:0.5rem;background:var(--accent);color:var(--black);padding:0.875rem 1.75rem;border-radius:100px;font-size:0.9375rem;font-weight:500;text-decoration:none;transition:opacity 0.2s,transform 0.2s}
+  .btn-primary:hover{opacity:0.88;transform:translateY(-1px)}
+  .btn-primary svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5}
+  .btn-ghost{display:inline-flex;align-items:center;gap:0.5rem;background:transparent;color:var(--white);border:1px solid rgba(255,255,255,0.15);padding:0.875rem 1.75rem;border-radius:100px;font-size:0.9375rem;font-weight:500;text-decoration:none;transition:border-color 0.2s}
+  .btn-ghost:hover{border-color:rgba(255,255,255,0.35)}
+
+  footer{padding:2rem 3rem;border-top:1px solid rgba(255,255,255,0.06);background:var(--gray-1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+  .footer-logo{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:800;font-size:1rem;color:var(--white);letter-spacing:-0.03em;text-decoration:none}
+  .footer-logo span{color:var(--accent)}
+  .footer-copy{font-size:0.8125rem;color:var(--gray-5);font-weight:300}
+  .footer-back-link{font-size:0.875rem;color:var(--gray-6);text-decoration:none;display:flex;align-items:center;gap:0.4rem;transition:color 0.2s}
+  .footer-back-link:hover{color:var(--accent)}
+  .footer-back-link svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+  @media(max-width:900px){
+    nav{padding:1rem 1.5rem}
+    .nav-links{display:none}
+    .hamburger{display:flex}
+    .service-hero{padding:7rem 1.5rem 3rem}
+    .service-section{padding:2rem 1.5rem 3.5rem}
+    .includes-grid{grid-template-columns:1fr}
+    .process-steps{grid-template-columns:1fr}
+    .service-cta-inner{padding:3.5rem 1.5rem}
+    footer{flex-direction:column;text-align:center}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../" class="nav-logo"><img src="../assets/images/logo.png" alt="Autegra" height="28" style="display:block;">Autegra</a>
+  <ul class="nav-links">
+    <li><a href="../#services">Services</a></li>
+    <li><a href="../#cases">Work</a></li>
+    <li><a href="../#about">About</a></li>
+    <li><a href="../blog/blog.html">Blog</a></li>
+    <li><a href="../contact/contact.html" class="nav-cta">Get in touch</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../#services" class="mobile-link">Services</a>
+  <a href="../#cases" class="mobile-link">Work</a>
+  <a href="../#about" class="mobile-link">About</a>
+  <a href="../blog/blog.html" class="mobile-link">Blog</a>
+  <a href="../contact/contact.html" class="mobile-link mobile-cta">Get in touch</a>
+</div>
+
+<!-- HERO -->
+<div class="service-hero">
+  <div class="service-hero-icon">
+    <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </div>
+  <p class="section-tag">What we do</p>
+  <h1>Workflow<br><em>Automation</em></h1>
+  <p class="service-hero-sub">Eliminate repetitive manual tasks. We map your processes and build reliable automated workflows using Make, Zapier, and n8n — so your team spends time on work that actually matters.</p>
+</div>
+
+<!-- WHAT'S INCLUDED -->
+<div class="service-section">
+  <h2 class="service-section-title">What's <em>included</em></h2>
+  <div class="includes-grid">
+    <div class="include-item">
+      <div class="include-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <p class="include-text"><strong>Process mapping</strong> — we document your current manual steps and pinpoint exactly where time is being lost.</p>
+    </div>
+    <div class="include-item">
+      <div class="include-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <p class="include-text"><strong>Workflow builds</strong> in Make, Zapier, or n8n — whichever platform fits your stack and budget best.</p>
+    </div>
+    <div class="include-item">
+      <div class="include-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <p class="include-text"><strong>Error handling & retries</strong> baked into every workflow, so failures get caught and resolved automatically.</p>
+    </div>
+    <div class="include-item">
+      <div class="include-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <p class="include-text"><strong>Monitoring & alerting</strong> so you know the moment something needs attention — not weeks later.</p>
+    </div>
+    <div class="include-item">
+      <div class="include-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <p class="include-text"><strong>Full documentation handover</strong> so your team can maintain and extend the workflow without us.</p>
+    </div>
+    <div class="include-item">
+      <div class="include-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <p class="include-text"><strong>Post-launch support</strong> to iron out edge cases once the workflow is running on real data.</p>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="service-section">
+  <h2 class="service-section-title">How it <em>works</em></h2>
+  <div class="process-steps">
+    <div class="process-step">
+      <div class="process-step-num">STEP 01</div>
+      <div class="process-step-title">Discovery call</div>
+      <p class="process-step-desc">We walk through your current process, tools, and pain points on a free 30-minute call — no commitment required.</p>
+    </div>
+    <div class="process-step">
+      <div class="process-step-num">STEP 02</div>
+      <div class="process-step-title">Build & test</div>
+      <p class="process-step-desc">We design and build the workflow, test it against real scenarios, and iterate until it's rock solid.</p>
+    </div>
+    <div class="process-step">
+      <div class="process-step-num">STEP 03</div>
+      <div class="process-step-title">Launch & handover</div>
+      <p class="process-step-desc">We deploy the workflow, document it fully, and hand it over with support for the first two weeks live.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="service-cta">
+  <div class="service-cta-inner">
+    <h2>Ready to automate<br><em>your workflow?</em></h2>
+    <p>Tell us about your process and we'll get back to you within 24 hours with a scoping proposal.</p>
+    <div class="cta-actions">
+      <a href="../contact/contact.html" class="btn-primary">
+        Get in touch
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="../book/book.html" class="btn-ghost">Book a free call</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <a href="../" class="footer-logo"><img src="../assets/images/logo.png" alt="Autegra" height="22" style="display:block;">Autegra</a>
+  <p class="footer-copy">© 2026 Autegra. All rights reserved.</p>
+  <a href="../" class="footer-back-link">
+    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to home
+  </a>
+</footer>
+
+<script>
+  const hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobileMenu');
+  hamburger.addEventListener('click',()=>{hamburger.classList.toggle('open');mobileMenu.classList.toggle('open');document.body.style.overflow=mobileMenu.classList.contains('open')?'hidden':''});
+  document.querySelectorAll('.mobile-link').forEach(l=>l.addEventListener('click',()=>{hamburger.classList.remove('open');mobileMenu.classList.remove('open');document.body.style.overflow=''}));
+</script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Get in Touch — Autegra</title>
+<meta name="description" content="Tell Autegra about your project and we'll get back to you within 24 hours with a scoping proposal."/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--black:#0a0c0f;--white:#f5f4f0;--accent:#00e5a0;--accent-dim:rgba(0,229,160,0.12);--accent-border:rgba(0,229,160,0.35);--gray-1:#111318;--gray-2:#1a1d24;--gray-3:#252830;--gray-4:#373b45;--gray-5:#6b7080;--gray-6:#9da3b0;--font-display:'Syne',sans-serif;--font-body:'DM Sans',sans-serif}
+  html{scroll-behavior:smooth}
+  body{background:var(--black);color:var(--white);font-family:var(--font-body);font-size:16px;line-height:1.7;overflow-x:hidden}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.25rem 3rem;background:rgba(10,12,15,0.88);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,0.05)}
+  .nav-logo{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:800;font-size:1.25rem;letter-spacing:-0.03em;color:var(--white);text-decoration:none}
+  .nav-logo span{color:var(--accent)}
+  .nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center}
+  .nav-links a{color:var(--gray-6);text-decoration:none;font-size:0.875rem;font-weight:400;transition:color 0.2s}
+  .nav-links a:hover{color:var(--white)}
+  .nav-cta{background:var(--accent);color:var(--black)!important;padding:0.5rem 1.25rem;border-radius:100px;font-weight:500!important}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+  .hamburger span{display:block;width:24px;height:2px;background:var(--white);border-radius:2px;transition:all 0.3s}
+  .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .hamburger.open span:nth-child(2){opacity:0}
+  .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .mobile-menu{display:none;position:fixed;inset:0;background:rgba(10,12,15,0.98);backdrop-filter:blur(20px);z-index:150;flex-direction:column;align-items:center;justify-content:center;gap:2rem}
+  .mobile-menu.open{display:flex}
+  .mobile-menu a{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--white);text-decoration:none;transition:color 0.2s}
+  .mobile-menu a:hover{color:var(--accent)}
+  .mobile-menu .mobile-cta{background:var(--accent);color:var(--black)!important;padding:0.75rem 2rem;border-radius:100px;font-size:1.25rem!important;margin-top:1rem}
+
+  .contact-page{max-width:1200px;margin:0 auto;padding:8rem 3rem 6rem}
+
+  .section-tag{font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem}
+  .section-tag::before{content:'';width:14px;height:1px;background:var(--accent);display:block}
+  .page-title{font-family:var(--font-display);font-size:clamp(2.25rem,4.5vw,3.5rem);font-weight:800;letter-spacing:-0.04em;line-height:1.05;margin-bottom:3rem}
+  .page-title em{font-style:italic;font-weight:300;color:var(--gray-5)}
+
+  .contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+
+  .contact-tagline{font-size:1.125rem;color:var(--gray-6);font-weight:300;line-height:1.8;margin-bottom:3rem;max-width:38ch}
+
+  .contact-detail{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem}
+
+  .contact-icon{width:40px;height:40px;border:1px solid rgba(255,255,255,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .contact-icon svg{width:16px;height:16px;stroke:var(--gray-6);fill:none;stroke-width:1.5}
+
+  .contact-label{font-size:0.75rem;color:var(--gray-5);letter-spacing:0.06em;text-transform:uppercase;font-weight:400;margin-bottom:0.15rem}
+  .contact-value{font-size:0.9375rem;color:var(--white);font-weight:400}
+  .contact-value a{color:var(--white);text-decoration:none}
+  .contact-value a:hover{color:var(--accent)}
+
+  .contact-book-link{display:inline-flex;align-items:center;gap:0.4rem;margin-top:2rem;color:var(--accent);font-size:0.9375rem;font-weight:500;text-decoration:none;transition:gap 0.2s}
+  .contact-book-link:hover{gap:0.75rem}
+  .contact-book-link svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+
+  /* Form */
+  .contact-form{background:var(--gray-1);border:1px solid rgba(255,255,255,0.07);border-radius:20px;padding:2.5rem}
+
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+
+  .form-group{display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1rem}
+  .form-group label{font-size:0.75rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--gray-5);font-weight:400}
+  .form-group input,.form-group textarea,.form-group select{
+    background:var(--gray-2);border:1px solid rgba(255,255,255,0.08);border-radius:10px;
+    padding:0.75rem 1rem;color:var(--white);font-family:var(--font-body);
+    font-size:0.9375rem;font-weight:300;outline:none;transition:border-color 0.2s;width:100%
+  }
+  .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--accent-border)}
+  .form-group input::placeholder,.form-group textarea::placeholder{color:var(--gray-4)}
+  .form-group textarea{resize:none;height:120px}
+  .form-group select{
+    cursor:pointer;appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7080' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 12px center;background-size:16px;
+  }
+  .form-group select option{background:var(--gray-2)}
+
+  .submit-btn{
+    width:100%;padding:0.875rem;background:var(--accent);color:var(--black);border:none;
+    border-radius:100px;font-family:var(--font-body);font-size:0.9375rem;font-weight:500;
+    cursor:pointer;transition:opacity 0.2s,transform 0.2s;margin-top:0.5rem;
+    display:flex;align-items:center;justify-content:center;gap:0.5rem
+  }
+  .submit-btn:hover{opacity:0.88;transform:translateY(-1px)}
+  .submit-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+
+  .form-status{display:none;padding:0.875rem 1rem;border-radius:10px;font-size:0.875rem;font-weight:400;margin-top:1rem;text-align:center}
+  .form-status.success{display:block;background:var(--accent-dim);border:1px solid var(--accent-border);color:var(--accent)}
+  .form-status.error{display:block;background:rgba(255,80,80,0.1);border:1px solid rgba(255,80,80,0.3);color:#ff6b6b}
+
+  footer{padding:2rem 3rem;border-top:1px solid rgba(255,255,255,0.06);background:var(--gray-1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+  .footer-logo{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:800;font-size:1rem;color:var(--white);letter-spacing:-0.03em;text-decoration:none}
+  .footer-logo span{color:var(--accent)}
+  .footer-copy{font-size:0.8125rem;color:var(--gray-5);font-weight:300}
+  .footer-back-link{font-size:0.875rem;color:var(--gray-6);text-decoration:none;display:flex;align-items:center;gap:0.4rem;transition:color 0.2s}
+  .footer-back-link:hover{color:var(--accent)}
+  .footer-back-link svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+  @media(max-width:900px){
+    nav{padding:1rem 1.5rem}
+    .nav-links{display:none}
+    .hamburger{display:flex}
+    .contact-page{padding:7rem 1.5rem 4rem}
+    .contact-layout{grid-template-columns:1fr;gap:3rem}
+    .form-row{grid-template-columns:1fr}
+    footer{flex-direction:column;text-align:center}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../" class="nav-logo"><img src="../assets/images/logo.png" alt="Autegra" height="28" style="display:block;">Autegra</a>
+  <ul class="nav-links">
+    <li><a href="../#services">Services</a></li>
+    <li><a href="../#cases">Work</a></li>
+    <li><a href="../#about">About</a></li>
+    <li><a href="../blog/blog.html">Blog</a></li>
+    <li><a href="contact.html" class="nav-cta">Get in touch</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../#services" class="mobile-link">Services</a>
+  <a href="../#cases" class="mobile-link">Work</a>
+  <a href="../#about" class="mobile-link">About</a>
+  <a href="../blog/blog.html" class="mobile-link">Blog</a>
+  <a href="contact.html" class="mobile-link mobile-cta">Get in touch</a>
+</div>
+
+<div class="contact-page">
+  <p class="section-tag">Get in touch</p>
+  <h1 class="page-title">Ready to automate?<br><em>Let's talk.</em></h1>
+
+  <div class="contact-layout">
+    <div class="contact-info">
+      <p class="contact-tagline">
+        Tell us about your project and we'll get back to you within 24 hours with a scoping proposal.
+      </p>
+
+      <div class="contact-detail">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-value"><a href="mailto:info@autegra.co">info@autegra.co</a></div>
+        </div>
+      </div>
+
+      <div class="contact-detail">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">Based in</div>
+          <div class="contact-value">Remote-first · Worldwide</div>
+        </div>
+      </div>
+
+      <div class="contact-detail">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">Response time</div>
+          <div class="contact-value">Within 24 hours</div>
+        </div>
+      </div>
+
+      <a href="../book/book.html" class="contact-book-link">
+        Or book a free discovery call
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <!-- Form uses Formspree -->
+    <div class="contact-form">
+      <form id="contactForm" action="https://formspree.io/f/mbdzvabr" method="POST">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First name</label>
+            <input type="text" name="firstName" placeholder="Alex" required />
+          </div>
+          <div class="form-group">
+            <label>Last name</label>
+            <input type="text" name="lastName" placeholder="Jordan" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email address</label>
+          <input type="email" name="email" placeholder="you@company.com" required />
+        </div>
+        <div class="form-group">
+          <label>Service needed</label>
+          <select name="service">
+            <option value="" disabled selected>Select a service…</option>
+            <option>Workflow Automation</option>
+            <option>API Integration</option>
+            <option>CRM & Data Sync</option>
+            <option>AI-Powered Flows</option>
+            <option>E-commerce Ops</option>
+            <option>Custom Webhooks & Scripts</option>
+            <option>Not sure yet</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tell us about your project</label>
+          <textarea name="message" placeholder="What tools are you using? What do you want to automate?" required></textarea>
+        </div>
+        <button type="submit" class="submit-btn" id="submitBtn">
+          Send message
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <div class="form-status" id="formStatus"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <a href="../" class="footer-logo"><img src="../assets/images/logo.png" alt="Autegra" height="22" style="display:block;">Autegra</a>
+  <p class="footer-copy">© 2026 Autegra. All rights reserved.</p>
+  <a href="../" class="footer-back-link">
+    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to home
+  </a>
+</footer>
+
+<script>
+  // Hamburger
+  const hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobileMenu');
+  hamburger.addEventListener('click',()=>{hamburger.classList.toggle('open');mobileMenu.classList.toggle('open');document.body.style.overflow=mobileMenu.classList.contains('open')?'hidden':''});
+  document.querySelectorAll('.mobile-link').forEach(l=>l.addEventListener('click',()=>{hamburger.classList.remove('open');mobileMenu.classList.remove('open');document.body.style.overflow=''}));
+
+  // Form submission
+  const form = document.getElementById('contactForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const formStatus = document.getElementById('formStatus');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Sending… <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>';
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        formStatus.className = 'form-status success';
+        formStatus.textContent = "Message sent! We'll be in touch within 24 hours.";
+        form.reset();
+      } else {
+        throw new Error('Server error');
+      }
+    } catch {
+      formStatus.className = 'form-status error';
+      formStatus.textContent = 'Something went wrong. Please email us directly at info@autegra.co';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Send message <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+    }
+  });
+</script>
+</body>
+</html>
